@@ -2,7 +2,7 @@ import UIKit
 import Flutter
 import LocalAuthentication
 
-@UIApplicationMain
+@main
 @objc class AppDelegate: FlutterAppDelegate {
   override func application(
     _ application: UIApplication,
@@ -20,14 +20,14 @@ import LocalAuthentication
       case "isBiometricAvailable":
         let context = LAContext()
         var error: NSError?
-        let isAvailable = context.canEvaluatePolicy(.biometricAuthentication, error: &error)
+        let isAvailable = context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
         result(isAvailable)
-        
+
       case "getAvailableBiometrics":
         let context = LAContext()
         var types: [String] = []
-        
-        if context.canEvaluatePolicy(.biometricAuthentication, error: nil) {
+
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
           switch context.biometryType {
           case .faceID:
             types.append("face")
@@ -38,14 +38,14 @@ import LocalAuthentication
           }
         }
         result(types)
-        
+
       case "authenticate":
         let signInTitle = (call.arguments as? [String: Any])?["signInTitle"] as? String ?? "Autenticazione Biometrica"
-        
+
         let context = LAContext()
         context.localizedFallbackTitle = "Usa Password"
-        
-        context.evaluatePolicy(.biometricAuthentication, 
+
+        context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics,
                               localizedReason: signInTitle) { success, error in
           DispatchQueue.main.async {
             if success {
