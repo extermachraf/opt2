@@ -151,7 +151,17 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
     String questionnaireType,
     String title,
   ) async {
-    print('🚀 Starting questionnaire: $questionnaireType');
+    // DEBUG: Check if this is a continuation or a fresh start
+    final todaysSession = _todaysSessions[questionnaireType];
+    final isInProgress = todaysSession != null && todaysSession['status'] == 'in_progress';
+    final isCompletedToday = todaysSession != null && todaysSession['status'] == 'completed';
+    print('═══════════════════════════════════════════════════════════');
+    print('🚀 DEBUG CONTINUE: Starting questionnaire: $questionnaireType');
+    print('🚀 DEBUG CONTINUE: Button mode: ${isCompletedToday ? "Modifica" : (isInProgress ? "Continua" : "Inizia")}');
+    print('🚀 DEBUG CONTINUE: Today\'s session info: $todaysSession');
+    print('🚀 DEBUG CONTINUE: Session ID from today: ${todaysSession?['session_id']}');
+    print('🚀 DEBUG CONTINUE: Session status: ${todaysSession?['status']}');
+    print('═══════════════════════════════════════════════════════════');
 
     try {
       // Get questionnaire details to check if BMI validation is required
@@ -286,7 +296,10 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
       Navigator.of(context).pop();
 
       if (sessionId != null) {
-        print('✅ Assessment session created: $sessionId');
+        print('═══════════════════════════════════════════════════════════');
+        print('✅ DEBUG CONTINUE: Session returned: $sessionId');
+        print('✅ DEBUG CONTINUE: Is this the SAME session as today? ${todaysSession?['session_id'] == sessionId}');
+        print('═══════════════════════════════════════════════════════════');
 
         // Get template ID for the questionnaire type with improved validation
         String? templateId;

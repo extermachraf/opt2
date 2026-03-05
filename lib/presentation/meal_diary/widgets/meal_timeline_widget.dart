@@ -1074,8 +1074,13 @@ class _MealEditBottomSheetState extends State<_MealEditBottomSheet> {
     } else if (mealFood['recipes'] != null) {
       final recipe = mealFood['recipes'];
       final servings = (recipe['servings'] as int? ?? 1);
-      final avgWeight = 250.0;
-      final totalWeight = avgWeight * servings;
+
+      // Use actual total_weight_g from recipe, fallback to 250g * servings
+      final dbTotalWeight =
+          ((recipe['total_weight_g'] as num?) ?? 0).toDouble();
+      final totalWeight = dbTotalWeight > 0
+          ? dbTotalWeight
+          : (250.0 * servings);
 
       final caloriesPer100g =
           ((recipe['total_calories'] as int? ?? 0) / totalWeight) * 100;
@@ -1086,16 +1091,43 @@ class _MealEditBottomSheetState extends State<_MealEditBottomSheet> {
       final fatPer100g =
           ((recipe['total_fat_g'] as num? ?? 0) / totalWeight) * 100;
       final fiberPer100g =
-          ((recipe['total_fiber_g'] as num? ?? 0) / totalWeight) *
-              100; // Add fiber calculation for recipes
+          ((recipe['total_fiber_g'] as num? ?? 0) / totalWeight) * 100;
 
       mealFood['calories'] = caloriesPer100g * multiplier;
       mealFood['protein_g'] = proteinPer100g * multiplier;
       mealFood['carbs_g'] = carbsPer100g * multiplier;
       mealFood['fat_g'] = fatPer100g * multiplier;
-      mealFood['fiber_g'] =
-          fiberPer100g * multiplier; // Apply fiber recalculation for recipes
+      mealFood['fiber_g'] = fiberPer100g * multiplier;
+    } else if (mealFood['food_ingredient_code'] != null &&
+        mealFood['Food Ingredients'] != null) {
+      // Handle Food Ingredients (DATABASE items)
+      // Note: BDA values can be num or String, so parse safely
+      final ingredient = mealFood['Food Ingredients'];
+      final caloriesPer100g = _safeParseDouble(
+          ingredient['Energia, Ric con fibra (kcal)']);
+      final proteinPer100g = _safeParseDouble(
+          ingredient['Proteine totali']);
+      final carbsPer100g = _safeParseDouble(
+          ingredient['Carboidrati disponibili (MSE)']);
+      final fatPer100g = _safeParseDouble(
+          ingredient['Lipidi totali']);
+      final fiberPer100g = _safeParseDouble(
+          ingredient['Fibra alimentare totale']);
+
+      mealFood['calories'] = caloriesPer100g * multiplier;
+      mealFood['protein_g'] = proteinPer100g * multiplier;
+      mealFood['carbs_g'] = carbsPer100g * multiplier;
+      mealFood['fat_g'] = fatPer100g * multiplier;
+      mealFood['fiber_g'] = fiberPer100g * multiplier;
     }
+  }
+
+  /// Safely parse a value that may be num or String to double
+  double _safeParseDouble(dynamic value) {
+    if (value == null) return 0.0;
+    if (value is num) return value.toDouble();
+    if (value is String) return double.tryParse(value) ?? 0.0;
+    return 0.0;
   }
 
   String? _validateQuantity(String? value) {

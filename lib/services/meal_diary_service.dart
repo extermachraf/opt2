@@ -106,6 +106,7 @@ class MealDiaryService {
                 total_carbs_g,
                 total_fat_g,
                 total_fiber_g,
+                total_weight_g,
                 servings
               ),
               "Food Ingredients" (
@@ -142,6 +143,7 @@ class MealDiaryService {
                   total_carbs_g,
                   total_fat_g,
                   total_fiber_g,
+                  total_weight_g,
                   servings
                 ),
                 "Food Ingredients" (
@@ -178,6 +180,7 @@ class MealDiaryService {
                   total_carbs_g,
                   total_fat_g,
                   total_fiber_g,
+                  total_weight_g,
                   servings
                 ),
                 "Food Ingredients" (
@@ -482,6 +485,14 @@ class MealDiaryService {
     }
   }
 
+  /// Safely parse a value that may be num or String to double
+  double _safeParseDouble(dynamic value) {
+    if (value == null) return 0.0;
+    if (value is num) return value.toDouble();
+    if (value is String) return double.tryParse(value) ?? 0.0;
+    return 0.0;
+  }
+
   /// Validate food data before database insertion - now includes fiber validation
   bool _validateFoodData(Map<String, dynamic> food) {
     try {
@@ -553,43 +564,35 @@ class MealDiaryService {
     Map<String, dynamic> recipeData,
   ) async {
     try {
-      // Calculate nutritional values per serving including fiber
-      final servings = (recipeData['servings'] as num?)?.toInt() ?? 1;
-      final totalCalories =
+      // Use recipe nutritional values directly (already represent the full recipe)
+      final recipeCalories =
           (recipeData['total_calories'] as num?)?.toDouble() ?? 0.0;
-      final totalProtein =
+      final recipeProtein =
           (recipeData['total_protein_g'] as num?)?.toDouble() ?? 0.0;
-      final totalCarbs =
+      final recipeCarbs =
           (recipeData['total_carbs_g'] as num?)?.toDouble() ?? 0.0;
-      final totalFat = (recipeData['total_fat_g'] as num?)?.toDouble() ?? 0.0;
-      final totalFiber =
-          (recipeData['total_fiber_g'] as num?)?.toDouble() ?? 0.0; // Add fiber
+      final recipeFat = (recipeData['total_fat_g'] as num?)?.toDouble() ?? 0.0;
+      final recipeFiber =
+          (recipeData['total_fiber_g'] as num?)?.toDouble() ?? 0.0;
 
-      // Calculate per serving values
-      final caloriesPerServing =
-          servings > 0 ? totalCalories / servings : totalCalories;
-      final proteinPerServing =
-          servings > 0 ? totalProtein / servings : totalProtein;
-      final carbsPerServing = servings > 0 ? totalCarbs / servings : totalCarbs;
-      final fatPerServing = servings > 0 ? totalFat / servings : totalFat;
-      final fiberPerServing = servings > 0
-          ? totalFiber / servings
-          : totalFiber; // Calculate fiber per serving
-
-      // Estimate weight per serving (250g is a reasonable average serving size)
-      final weightPerServing = 250.0;
+      // Use the full total_weight_g from the recipe as-is
+      final dbTotalWeight =
+          (recipeData['total_weight_g'] as num?)?.toDouble() ?? 0.0;
+      final recipeWeight = dbTotalWeight > 0
+          ? dbTotalWeight
+          : 250.0; // Fallback only if no weight data
 
       // Create meal_food entry for the recipe including fiber
       await _client.from('meal_foods').insert({
         'meal_entry_id': mealEntryId,
         'recipe_id': recipeData['id'],
         'food_item_id': null, // Recipe entries don't have food_item_id
-        'quantity_grams': weightPerServing,
-        'calories': caloriesPerServing,
-        'protein_g': proteinPerServing,
-        'carbs_g': carbsPerServing,
-        'fat_g': fatPerServing,
-        'fiber_g': fiberPerServing, // Add fiber to database insert
+        'quantity_grams': recipeWeight,
+        'calories': recipeCalories,
+        'protein_g': recipeProtein,
+        'carbs_g': recipeCarbs,
+        'fat_g': recipeFat,
+        'fiber_g': recipeFiber,
       });
     } catch (error) {
       throw Exception('Failed to add recipe to meal entry: $error');
@@ -1027,7 +1030,7 @@ class MealDiaryService {
     }
 
     try {
-      // First get the meal food with its food item or recipe data
+      // First get the meal food with its food item, recipe, or Food Ingredients data
       final mealFoodResponse = await _client.from('meal_foods').select('''
             *,
             food_items (
@@ -1046,6 +1049,13 @@ class MealDiaryService {
               total_weight_g,
               calories_per_100g,
               servings
+            ),
+            "Food Ingredients" (
+              "Energia, Ric con fibra (kcal)",
+              "Proteine totali",
+              "Carboidrati disponibili (MSE)",
+              "Lipidi totali",
+              "Fibra alimentare totale"
             ),
             meal_entries!inner (user_id)
           ''').eq('id', mealFoodId).single();
@@ -1106,6 +1116,27 @@ class MealDiaryService {
         newCarbs = carbsPer100g * multiplier;
         newFat = fatPer100g * multiplier;
         newFiber = fiberPer100g * multiplier; // Calculate new fiber for recipe
+      } else if (mealFoodResponse['food_ingredient_code'] != null &&
+          mealFoodResponse['Food Ingredients'] != null) {
+        // Handle Food Ingredients (DATABASE items)
+        // Note: BDA values can be num or String, so parse safely
+        final ingredient = mealFoodResponse['Food Ingredients'];
+        final caloriesPer100g = _safeParseDouble(
+            ingredient['Energia, Ric con fibra (kcal)']);
+        final proteinPer100g = _safeParseDouble(
+            ingredient['Proteine totali']);
+        final carbsPer100g = _safeParseDouble(
+            ingredient['Carboidrati disponibili (MSE)']);
+        final fatPer100g = _safeParseDouble(
+            ingredient['Lipidi totali']);
+        final fiberPer100g = _safeParseDouble(
+            ingredient['Fibra alimentare totale']);
+
+        newCalories = caloriesPer100g * multiplier;
+        newProtein = proteinPer100g * multiplier;
+        newCarbs = carbsPer100g * multiplier;
+        newFat = fatPer100g * multiplier;
+        newFiber = fiberPer100g * multiplier;
       }
 
       // Update meal food with new values including fiber
@@ -1188,6 +1219,7 @@ class MealDiaryService {
                 total_carbs_g,
                 total_fat_g,
                 total_fiber_g,
+                total_weight_g,
                 servings
               ),
               "Food Ingredients" (
@@ -1301,6 +1333,7 @@ class MealDiaryService {
               total_carbs_g,
               total_fat_g,
               total_fiber_g,
+              total_weight_g,
               servings
             )
           ''')

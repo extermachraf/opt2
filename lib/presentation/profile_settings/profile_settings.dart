@@ -402,6 +402,83 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     return null;
   }
 
+  // ---------------------------------------------------------------------------
+  // Pure function: BMR × BMI-based correction factor (Steps A–E)
+  // Returns: { bmi, bmi_class, weight_used, bmr, correction_factor, total_energy }
+  // NOTE: height must be in METRES; weight in kg; age in whole years.
+  // ---------------------------------------------------------------------------
+  static Map<String, dynamic> _computeEnergyRequirement({
+    required double weightKg,
+    required double heightM,
+    required int ageYears,
+    required String gender, // 'male' or 'female'
+  }) {
+    // Step A — BMI
+    final bmi = weightKg / (heightM * heightM);
+
+    // BMI class boundaries
+    String bmiClass;
+    if (bmi <= 18.5) {
+      bmiClass = 'underweight';
+    } else if (bmi <= 29.9) {
+      bmiClass = 'normal_overweight';
+    } else {
+      bmiClass = 'obese';
+    }
+
+    // Step B — weight used in BMR
+    final double weightUsed;
+    if (bmi <= 29.9) {
+      weightUsed = weightKg;
+    } else {
+      // Reference weight for obese individuals
+      weightUsed = (weightKg * 0.25) + (heightM * heightM * 22);
+    }
+
+    // Step C — BMR (Harris & Benedict; height is in METRES as provided)
+    final double bmr;
+    if (gender.toLowerCase() == 'male') {
+      bmr = 66.4730 + (13.7156 * weightUsed) + (5.033 * heightM) - (6.755 * ageYears);
+    } else {
+      bmr = 655.095 + (9.5634 * weightUsed) + (1.849 * heightM) - (4.6756 * ageYears);
+    }
+
+    // Step D — correction factor based on BMI class
+    final double correctionFactor;
+    if (bmi <= 18.5) {
+      correctionFactor = 1.5;
+    } else if (bmi <= 29.9) {
+      correctionFactor = 1.3;
+    } else {
+      correctionFactor = 1.2;
+    }
+
+    // Step E — total daily energy requirement
+    final totalEnergy = bmr * correctionFactor;
+
+    return {
+      'bmi': bmi,
+      'bmi_class': bmiClass,
+      'weight_used': weightUsed,
+      'bmr': bmr,
+      'correction_factor': correctionFactor,
+      'total_energy': totalEnergy,
+    };
+  }
+
+  String _getBmiClassName(String bmiClass) {
+    switch (bmiClass) {
+      case 'underweight':
+        return 'Sottopeso';
+      case 'normal_overweight':
+        return 'Normopeso/Sovrappeso';
+      case 'obese':
+        return 'Obeso';
+      default:
+        return bmiClass;
+    }
+  }
+
   Widget _buildErrorWidget() {
     return Center(
       child: Container(
@@ -712,7 +789,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   : 'Non impostato',
               iconName: 'local_fire_department',
               iconColor: AppTheme.lightTheme.primaryColor,
-              onTap: () => _editMedicalInfo('daily_caloric_intake'),
+              onTap: () => _editDailyCaloricIntake(),
             ),
             SettingsItemData(
               title: 'In terapia presso un nutrizionista?',
@@ -823,15 +900,126 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               child: Text(
                 'Impostazioni notifiche',
                 style: GoogleFonts.inter(
-                  color: AppTheme.textDark,
+                  color: Colors.white,
                   fontWeight: FontWeight.w600,
-                  fontSize: 17.sp, // Increased from 14.sp for better readability
+                  fontSize: 20.sp,
                 ),
               ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 4.w),
               child: const NotificationSettingsWidget(),
+            ),
+          ],
+        ),
+        SizedBox(height: 3.h),
+
+        SettingsSectionWidget(
+          title: 'Link Utili',
+          items: [
+            SettingsItemData(
+              title: 'Linee Guida AIOM',
+              subtitle: 'Nutrizione nel paziente oncologico',
+              iconName: 'picture_as_pdf',
+              iconColor: AppTheme.lightTheme.primaryColor,
+              onTap: () async {
+                final uri = Uri.parse(
+                  'https://www.iss.it/documents/20126/8403839/LG_C0031_AIOM_Nutrizione.pdf/6c0c1ef2-7134-6f29-3df5-f5c3fb73ae85?t=1737626654639',
+                );
+                if (await canLaunchUrl(uri)) await launchUrl(uri, mode: LaunchMode.externalApplication);
+              },
+            ),
+            SettingsItemData(
+              title: 'Carta dei Diritti AIOM',
+              subtitle: 'Supporto nutrizionale per il paziente',
+              iconName: 'picture_as_pdf',
+              iconColor: AppTheme.lightTheme.primaryColor,
+              onTap: () async {
+                final uri = Uri.parse(
+                  'http://media.aiom.it/userfiles/files/doc/documenti_scientifici/2016_carta_diritti_SUPPORTO_NUTRIZIONALE.pdf',
+                );
+                if (await canLaunchUrl(uri)) await launchUrl(uri, mode: LaunchMode.externalApplication);
+              },
+            ),
+            SettingsItemData(
+              title: 'Libretto AIMAC',
+              subtitle: 'Nutrizione per il malato di cancro',
+              iconName: 'menu_book',
+              iconColor: AppTheme.lightTheme.primaryColor,
+              onTap: () async {
+                final uri = Uri.parse('https://www.aimac.it/libretti-tumore/nutrizione-malato-cancro');
+                if (await canLaunchUrl(uri)) await launchUrl(uri, mode: LaunchMode.externalApplication);
+              },
+            ),
+            SettingsItemData(
+              title: 'AIOM',
+              subtitle: 'Associazione Italiana Oncologia Medica',
+              iconName: 'link',
+              iconColor: AppTheme.lightTheme.primaryColor,
+              onTap: () async {
+                final uri = Uri.parse('https://www.aiom.it/');
+                if (await canLaunchUrl(uri)) await launchUrl(uri, mode: LaunchMode.externalApplication);
+              },
+            ),
+            SettingsItemData(
+              title: 'SINPE',
+              subtitle: 'Società Italiana Nutrizione Parenterale ed Enterale',
+              iconName: 'link',
+              iconColor: AppTheme.lightTheme.primaryColor,
+              onTap: () async {
+                final uri = Uri.parse('https://www.sinpe.org/');
+                if (await canLaunchUrl(uri)) await launchUrl(uri, mode: LaunchMode.externalApplication);
+              },
+            ),
+            SettingsItemData(
+              title: 'FAVO',
+              subtitle: 'Federazione italiana delle Associazioni di Volontariato in Oncologia',
+              iconName: 'link',
+              iconColor: AppTheme.lightTheme.primaryColor,
+              onTap: () async {
+                final uri = Uri.parse('https://www.favo.it/');
+                if (await canLaunchUrl(uri)) await launchUrl(uri, mode: LaunchMode.externalApplication);
+              },
+            ),
+            SettingsItemData(
+              title: 'SICO',
+              subtitle: 'Società Italiana di Chirurgia Oncologica',
+              iconName: 'link',
+              iconColor: AppTheme.lightTheme.primaryColor,
+              onTap: () async {
+                final uri = Uri.parse('https://sicoweb.it/');
+                if (await canLaunchUrl(uri)) await launchUrl(uri, mode: LaunchMode.externalApplication);
+              },
+            ),
+            SettingsItemData(
+              title: 'ASAND',
+              subtitle: 'Associazione Scientifica degli Specialisti in Alimentazione e Nutrizione Dietetica',
+              iconName: 'link',
+              iconColor: AppTheme.lightTheme.primaryColor,
+              onTap: () async {
+                final uri = Uri.parse('https://www.asand.it/');
+                if (await canLaunchUrl(uri)) await launchUrl(uri, mode: LaunchMode.externalApplication);
+              },
+            ),
+            SettingsItemData(
+              title: 'AIRO',
+              subtitle: 'Associazione Italiana di Radioterapia Oncologica',
+              iconName: 'link',
+              iconColor: AppTheme.lightTheme.primaryColor,
+              onTap: () async {
+                final uri = Uri.parse('https://radioterapiaitalia.it/');
+                if (await canLaunchUrl(uri)) await launchUrl(uri, mode: LaunchMode.externalApplication);
+              },
+            ),
+            SettingsItemData(
+              title: 'FNOPI',
+              subtitle: 'Federazione Nazionale Ordini Professioni Infermieristiche',
+              iconName: 'link',
+              iconColor: AppTheme.lightTheme.primaryColor,
+              onTap: () async {
+                final uri = Uri.parse('https://www.fnopi.it/');
+                if (await canLaunchUrl(uri)) await launchUrl(uri, mode: LaunchMode.externalApplication);
+              },
             ),
           ],
         ),
@@ -1220,6 +1408,192 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               child: const Text('Salva'),
             ),
           ],
+        );
+      },
+    );
+  }
+
+  // ---------------------------------------------------------------------------
+  // Dedicated dialog for "Fabbisogno calorico giornaliero"
+  // Adds a "Calcola automaticamente" button that runs the BMR formula and
+  // pre-fills the text field.  The user still decides whether to save or not,
+  // so manual-target priority (Bug 75) is fully preserved.
+  // ---------------------------------------------------------------------------
+  void _editDailyCaloricIntake() {
+    final currentValue = _medicalProfile?['daily_caloric_intake']?.toString();
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        final controller = TextEditingController(text: currentValue);
+        String? calcInfo; // feedback message after calculation
+
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return AlertDialog(
+              title: const Text('Modifica Fabbisogno calorico giornaliero'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  TextFormField(
+                    controller: controller,
+                    decoration: const InputDecoration(
+                      labelText: 'Fabbisogno calorico giornaliero',
+                      border: OutlineInputBorder(),
+                      suffixText: 'kcal',
+                    ),
+                    keyboardType: TextInputType.number,
+                  ),
+                  const SizedBox(height: 12),
+                  // ── Calcola button ──────────────────────────────────────
+                  OutlinedButton.icon(
+                    icon: const Icon(Icons.calculate_outlined),
+                    label: const Text('Calcola automaticamente'),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: AppTheme.lightTheme.primaryColor,
+                      side: BorderSide(
+                        color: AppTheme.lightTheme.primaryColor,
+                      ),
+                    ),
+                    onPressed: () {
+                      // Read required inputs from loaded profile
+                      final weightKg = _getSafeDouble(
+                        _medicalProfile?['current_weight_kg'],
+                      );
+                      final heightCm = _getSafeDouble(
+                        _medicalProfile?['height_cm'],
+                      );
+                      final dobStr =
+                          _userProfile?['date_of_birth']?.toString();
+                      // Gender may be in user_profiles or medical_profiles
+                      final String? genderFromUser = _userProfile?['gender']?.toString();
+                      final String? genderFromMedical = _medicalProfile?['gender_at_birth']?.toString();
+                      final String? gender =
+                          (genderFromUser ?? '').isNotEmpty
+                              ? genderFromUser
+                              : genderFromMedical;
+
+                      // ── DEBUG LOG ──────────────────────────────────
+                      print('═══════════════════════════════════════════');
+                      print('🔍 CALCOLA DEBUG — Raw profile values:');
+                      print('   _userProfile[gender]       = "$genderFromUser"');
+                      print('   _medicalProfile[gender_at_birth] = "$genderFromMedical"');
+                      print('   → gender used              = "$gender"');
+                      print('   _medicalProfile[current_weight_kg] = ${_medicalProfile?['current_weight_kg']}');
+                      print('   _medicalProfile[height_cm]         = ${_medicalProfile?['height_cm']}');
+                      print('   _userProfile[date_of_birth]        = $dobStr');
+                      print('   weightKg (parsed)  = $weightKg');
+                      print('   heightCm (parsed)  = $heightCm');
+                      // ──────────────────────────────────────────────
+
+                      // Validate inputs
+                      if (weightKg == null ||
+                          heightCm == null ||
+                          dobStr == null ||
+                          dobStr.isEmpty ||
+                          gender == null ||
+                          gender.isEmpty) {
+                        print('   ⚠ VALIDATION FAILED — missing data');
+                        setDialogState(() {
+                          calcInfo =
+                              '⚠ Dati mancanti: verifica peso, altezza, '
+                              'data di nascita e genere nel profilo.';
+                        });
+                        return;
+                      }
+
+                      final dob = DateTime.tryParse(dobStr);
+                      if (dob == null) {
+                        print('   ⚠ DOB PARSE FAILED for "$dobStr"');
+                        setDialogState(() {
+                          calcInfo = '⚠ Data di nascita non valida.';
+                        });
+                        return;
+                      }
+
+                      // Compute age
+                      final now = DateTime.now();
+                      int age = now.year - dob.year;
+                      if (now.month < dob.month ||
+                          (now.month == dob.month && now.day < dob.day)) {
+                        age--;
+                      }
+
+                      // Normalize height: if stored as metres (<3), use directly; else /100
+                      final heightM = heightCm < 3.0 ? heightCm : heightCm / 100.0;
+
+                      print('   age               = $age');
+                      print('   heightM (normalized) = $heightM  (raw heightCm=$heightCm)');
+                      print('   gender.toLowerCase() = "${gender.toLowerCase()}"');
+                      print('   gender == "male"?  ${gender.toLowerCase() == 'male'}');
+                      print('   gender == "female"? ${gender.toLowerCase() == 'female'}');
+
+                      // Run the pure formula
+                      final result = _computeEnergyRequirement(
+                        weightKg: weightKg,
+                        heightM: heightM,
+                        ageYears: age,
+                        gender: gender,
+                      );
+
+                      print('   ── Formula result ──');
+                      print('   BMI          = ${result['bmi']}');
+                      print('   BMI class    = ${result['bmi_class']}');
+                      print('   weight_used  = ${result['weight_used']}');
+                      print('   BMR          = ${result['bmr']}');
+                      print('   factor       = ${result['correction_factor']}');
+                      print('   total_energy = ${result['total_energy']}');
+                      print('═══════════════════════════════════════════');
+
+                      final totalEnergy =
+                          (result['total_energy'] as double).roundToDouble();
+                      controller.text = totalEnergy.round().toString();
+
+                      final bmi = (result['bmi'] as double).toStringAsFixed(1);
+                      final bmiLabel =
+                          _getBmiClassName(result['bmi_class'] as String);
+                      final bmr =
+                          (result['bmr'] as double).toStringAsFixed(0);
+                      final factor = result['correction_factor'];
+
+                      setDialogState(() {
+                        calcInfo =
+                            'BMI $bmi ($bmiLabel) · BMR $bmr kcal × $factor';
+                      });
+                    },
+                  ),
+                  // ── Calculation summary ──────────────────────────────────
+                  if (calcInfo != null) ...[
+                    const SizedBox(height: 8),
+                    Text(
+                      calcInfo!,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: calcInfo!.startsWith('⚠')
+                            ? AppTheme.lightTheme.colorScheme.error
+                            : Colors.grey[600],
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Annulla'),
+                ),
+                ElevatedButton(
+                  onPressed: () => _saveMedicalInfo(
+                    'daily_caloric_intake',
+                    controller.text,
+                    context,
+                  ),
+                  child: const Text('Salva'),
+                ),
+              ],
+            );
+          },
         );
       },
     );

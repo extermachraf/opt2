@@ -372,6 +372,19 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
   }
 
   Widget _buildNutritionalInfo() {
+    // Display the pre-calculated full-portion macros directly from the DB.
+    // total_protein_g / total_carbs_g / total_fat_g already represent the
+    // correct values for the whole recipe portion (fixed by fix_recipe_macros.py).
+    final displayCalories = (recipe!['total_calories'] as num?)?.toInt() ??
+        (recipe!['calories'] as num?)?.toInt() ??
+        0;
+    final displayProtein =
+        ((recipe!['total_protein_g'] as num?)?.toDouble() ?? 0.0).round();
+    final displayCarbs =
+        ((recipe!['total_carbs_g'] as num?)?.toDouble() ?? 0.0).round();
+    final displayFat =
+        ((recipe!['total_fat_g'] as num?)?.toDouble() ?? 0.0).round();
+
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -391,22 +404,22 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _buildNutrientItem(
-                  '${recipe!['total_calories'] ?? recipe!['calories'] ?? 0}',
+                  '$displayCalories',
                   'kcal',
                   'Calorie',
                 ),
                 _buildNutrientItem(
-                  '${recipe!['total_protein_g']?.toInt() ?? recipe!['protein']?.toInt() ?? 0}g',
+                  '${displayProtein}g',
                   'protein_g',
                   'Proteine',
                 ),
                 _buildNutrientItem(
-                  '${recipe!['total_carbs_g']?.toInt() ?? recipe!['carbs']?.toInt() ?? 0}g',
+                  '${displayCarbs}g',
                   'carbs_g',
                   'Carboidrati',
                 ),
                 _buildNutrientItem(
-                  '${recipe!['total_fat_g']?.toInt() ?? recipe!['fat']?.toInt() ?? 0}g',
+                  '${displayFat}g',
                   'fat_g',
                   'Grassi',
                 ),

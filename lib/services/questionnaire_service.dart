@@ -402,8 +402,8 @@ class QuestionnaireService {
         return {
           'session_id': session['session_id'],
           'status': session['status'],
-          'started_at': session['started_at'],
-          'completed_at': session['completed_at'],
+          'started_at': session['session_started_at'],
+          'completed_at': session['session_completed_at'],
           'is_editing': true, // Flag to indicate this is an edit session
         };
       }
@@ -421,7 +421,10 @@ class QuestionnaireService {
       final userId = _supabase.auth.currentUser?.id ??
           'd4a87e24-2cab-4fc0-a753-fba15ba7c755'; // Mock for demo
 
-      print('Starting assessment session for type: $questionnaireType');
+      print('═══════════════════════════════════════════════════════════');
+      print('🔍 DEBUG SESSION: startAssessmentSession called');
+      print('🔍 DEBUG SESSION: questionnaireType=$questionnaireType, userId=$userId');
+      print('═══════════════════════════════════════════════════════════');
 
       // First, validate that the questionnaire template exists
       final template = await _supabase
@@ -432,31 +435,14 @@ class QuestionnaireService {
           .maybeSingle();
 
       if (template == null) {
-        print('Template not found for questionnaire type: $questionnaireType');
+        print('Template not found for questionnaire type: $questionnaireType — creating session anyway with requested type');
 
-        // Try to find any available template as fallback
-        final availableTemplates = await _supabase
-            .from('questionnaire_templates')
-            .select('id, questionnaire_type, title, is_active')
-            .eq('is_active', true)
-            .limit(1);
-
-        if (availableTemplates.isEmpty) {
-          throw Exception('Nessun template di questionario disponibile');
-        }
-
-        // Use the first available template
-        final fallbackTemplate = availableTemplates.first;
-        final fallbackType = fallbackTemplate['questionnaire_type'] as String;
-
-        print('Using fallback template: $fallbackType');
-
-        // Create session with fallback template
+        // Always create the session with the REQUESTED type, not some random fallback.
         final response = await _supabase
             .from('assessment_sessions')
             .insert({
               'user_id': userId,
-              'questionnaire_type': fallbackType,
+              'questionnaire_type': questionnaireType,
               'status': 'in_progress',
               'started_at': DateTime.now().toIso8601String(),
             })
@@ -464,10 +450,7 @@ class QuestionnaireService {
             .single();
 
         final sessionId = response['id'];
-
-        // Trigger automatic calculations
         await autoCalculateResponses(sessionId);
-
         return sessionId;
       }
 
@@ -481,12 +464,17 @@ class QuestionnaireService {
         },
       );
 
+      print('🔍 DEBUG SESSION: RPC get_todays_questionnaire_session returned: $todaysSession (type: ${todaysSession.runtimeType})');
+
       if (todaysSession != null && todaysSession is List && todaysSession.isNotEmpty) {
         final session = todaysSession.first;
         final sessionId = session['session_id'] as String;
         final status = session['status'] as String;
 
-        print('DAILY RESTRICTION: Found existing session from today: $sessionId (status: $status)');
+        print('═══════════════════════════════════════════════════════════');
+        print('✅ DEBUG SESSION: REUSING existing session from today: $sessionId');
+        print('✅ DEBUG SESSION: Session status: $status');
+        print('═══════════════════════════════════════════════════════════');
 
         // Return the existing session for editing (whether in_progress or completed)
         // This allows users to modify their answers for today
@@ -496,7 +484,23 @@ class QuestionnaireService {
       }
 
       // No session exists for today - check if we can create a new one
-      print('DAILY RESTRICTION: No session found for today, creating new session');
+      print('⚠️ DEBUG SESSION: NO session found for today → will CREATE NEW session');
+
+      // DEBUG: Also check if there's any in_progress session from previous days
+      try {
+        final anyInProgress = await _supabase
+            .from('assessment_sessions')
+            .select('id, status, started_at')
+            .eq('user_id', userId)
+            .eq('questionnaire_type', questionnaireType)
+            .eq('status', 'in_progress')
+            .order('created_at', ascending: false)
+            .limit(1)
+            .maybeSingle();
+        print('🔍 DEBUG SESSION: Any in_progress session (any date)? ${anyInProgress != null ? "YES → ${anyInProgress['id']} started at ${anyInProgress['started_at']}" : "NO"}');
+      } catch (debugErr) {
+        print('🔍 DEBUG SESSION: Error checking in_progress sessions: $debugErr');
+      }
 
       // Create new session (only if no session exists for today)
       print(
@@ -523,35 +527,63 @@ class QuestionnaireService {
     } catch (e) {
       print('Error starting assessment session: $e');
 
-      // Enhanced error handling - try to create a basic session anyway
+      // Last-resort fallback: first try to find an existing in_progress or
+      // today's session via a direct query (avoids the broken RPC).
+      // Only create a brand-new session if nothing exists.
       try {
         final userId = _supabase.auth.currentUser?.id ??
             'd4a87e24-2cab-4fc0-a753-fba15ba7c755';
 
-        // Get any available template
-        final fallbackTemplate = await _supabase
-            .from('questionnaire_templates')
-            .select('questionnaire_type')
-            .eq('is_active', true)
+        // 1. Try to find today's session directly (bypasses the RPC)
+        final todayStr = DateTime.now().toIso8601String().split('T')[0]; // YYYY-MM-DD
+        final existingToday = await _supabase
+            .from('assessment_sessions')
+            .select('id, status')
+            .eq('user_id', userId)
+            .eq('questionnaire_type', questionnaireType)
+            .gte('started_at', '${todayStr}T00:00:00')
+            .lte('started_at', '${todayStr}T23:59:59')
+            .order('created_at', ascending: false)
             .limit(1)
             .maybeSingle();
 
-        if (fallbackTemplate != null) {
-          final fallbackType = fallbackTemplate['questionnaire_type'] as String;
-
-          final response = await _supabase
-              .from('assessment_sessions')
-              .insert({
-                'user_id': userId,
-                'questionnaire_type': fallbackType,
-                'status': 'in_progress',
-                'started_at': DateTime.now().toIso8601String(),
-              })
-              .select()
-              .single();
-
-          return response['id'];
+        if (existingToday != null) {
+          final sessionId = existingToday['id'] as String;
+          print('FALLBACK: Found existing today session: $sessionId (status: ${existingToday['status']})');
+          return sessionId;
         }
+
+        // 2. Try to find any in_progress session (from previous days)
+        final existingInProgress = await _supabase
+            .from('assessment_sessions')
+            .select('id, status')
+            .eq('user_id', userId)
+            .eq('questionnaire_type', questionnaireType)
+            .eq('status', 'in_progress')
+            .order('created_at', ascending: false)
+            .limit(1)
+            .maybeSingle();
+
+        if (existingInProgress != null) {
+          final sessionId = existingInProgress['id'] as String;
+          print('FALLBACK: Found existing in_progress session: $sessionId');
+          return sessionId;
+        }
+
+        // 3. No existing session found — create a new one
+        print('FALLBACK: No existing session found, creating new one');
+        final response = await _supabase
+            .from('assessment_sessions')
+            .insert({
+              'user_id': userId,
+              'questionnaire_type': questionnaireType,
+              'status': 'in_progress',
+              'started_at': DateTime.now().toIso8601String(),
+            })
+            .select()
+            .single();
+
+        return response['id'];
       } catch (fallbackError) {
         print('Fallback session creation also failed: $fallbackError');
       }
@@ -1169,10 +1201,10 @@ class QuestionnaireService {
   // CRITICAL FIX: Enhanced completion logic with NRS 2002 specific handling
   Future<Map<String, dynamic>?> completeAssessment(String sessionId) async {
     try {
-      // First, check if the session exists and is in progress
+      // First, check if the session exists and fetch all relevant fields
       final sessionCheck = await _supabase
           .from('assessment_sessions')
-          .select('status, questionnaire_type')
+          .select('status, questionnaire_type, total_score, risk_level, completed_at')
           .eq('id', sessionId)
           .maybeSingle();
 
@@ -1182,13 +1214,14 @@ class QuestionnaireService {
       }
 
       if (sessionCheck['status'] == 'completed') {
-        print('Session already completed: $sessionId');
-        // Return existing completion data
+        print('Session already completed: $sessionId - returning real score from DB');
+        // Return the real score saved in the database, not a hardcoded 0
         return {
-          'total_score': 0, // Could fetch from database
-          'risk_level': 'completed',
+          'total_score': sessionCheck['total_score'] as int? ?? 0,
+          'risk_level': sessionCheck['risk_level'] as String? ?? 'completed',
           'questionnaire_type': sessionCheck['questionnaire_type'],
-          'completed_at': DateTime.now().toIso8601String(),
+          'completed_at': sessionCheck['completed_at'] as String? ?? DateTime.now().toIso8601String(),
+          'session_id': sessionId,
         };
       }
 
@@ -1287,6 +1320,9 @@ class QuestionnaireService {
   // Get questionnaire responses for a session
   Future<Map<String, dynamic>> getSessionResponses(String sessionId) async {
     try {
+      print('═══════════════════════════════════════════════════════════');
+      print('📦 DEBUG RESPONSES: getSessionResponses called for sessionId=$sessionId');
+
       final response = await _supabase
           .from('questionnaire_responses')
           .select(
@@ -1294,17 +1330,28 @@ class QuestionnaireService {
           )
           .eq('session_id', sessionId ?? '');
 
+      print('📦 DEBUG RESPONSES: Raw DB rows returned: ${response.length}');
+
       final responses = <String, dynamic>{};
       for (final row in response) {
-        responses[row['question_id']] = {
-          'value': row['response_value'],
+        final qId = row['question_id'];
+        final val = row['response_value'];
+        print('📦 DEBUG RESPONSES:   → question_id=$qId, response_value=$val');
+        responses[qId] = {
+          'value': val,
           'score': row['response_score'],
           'calculated_value': row['calculated_value'],
         };
       }
+
+      print('📦 DEBUG RESPONSES: Total responses mapped: ${responses.length}');
+      print('📦 DEBUG RESPONSES: Response keys: ${responses.keys.toList()}');
+      print('═══════════════════════════════════════════════════════════');
       return responses;
     } catch (e) {
-      print('Error getting session responses: $e');
+      print('═══════════════════════════════════════════════════════════');
+      print('❌ DEBUG RESPONSES: ERROR getting session responses: $e');
+      print('═══════════════════════════════════════════════════════════');
       return {};
     }
   }
@@ -1431,9 +1478,9 @@ class QuestionnaireService {
     final calculatedValues = await getCalculatedValues(userId);
 
     // CRITICAL FIX: Enhanced MUST BMI question handling with corrected scoring order
-    if (questionId == 'must_bmi_calculated' ||
-        questionId.contains('bmi') ||
-        questionId.contains('BMI')) {
+    // Only match MUST BMI question — NRS 2002 BMI (nrs_bmi_under_20_5) is handled
+    // by _handleNrs2002CalculatedQuestion and must NEVER receive MUST scores.
+    if (questionId == 'must_bmi_calculated') {
       final bmi = calculatedValues['bmi'];
       if (bmi != null) {
         // CORRECTED MUST BMI scoring: First answer = 0 points, second = 1 point, third = 2 points
@@ -1617,7 +1664,8 @@ class QuestionnaireService {
           .eq('id', sessionId)
           .single();
 
-      final questionnaireType = session['questionnaire_type'] as String;
+      // Trim to guard against trailing whitespace from Postgres ENUM serialisation
+      final questionnaireType = (session['questionnaire_type'] as String).trim();
       final userId = session['user_id'] as String;
 
       // Get template info
@@ -1630,7 +1678,7 @@ class QuestionnaireService {
 
       // CRITICAL FIX: Apply MUST-specific handling first
       int totalQuestions;
-      if (questionnaireType.toLowerCase() == 'must') {
+      if (questionnaireType.toLowerCase().trim() == 'must') {
         // MUST questionnaire MUST have exactly 3 questions
         totalQuestions = 3;
       } else {
@@ -1653,18 +1701,21 @@ class QuestionnaireService {
       int completedResponses = responsesCount.count;
 
       // CRITICAL FIX: For MUST questionnaire, cap completed responses at 3
-      if (questionnaireType.toLowerCase() == 'must' && completedResponses > 3) {
+      final isMust = questionnaireType.toLowerCase().trim() == 'must';
+      if (isMust && completedResponses > 3) {
         completedResponses = 3;
         print(
           '🔒 MUST DETAILED PROGRESS: Capped responses to 3 (was ${responsesCount.count})',
         );
       }
 
-      final completionPercentage = totalQuestions > 0
-          ? ((completedResponses / totalQuestions) * 100).round()
+      // For MUST: always use 3 as denominator for percentage
+      final effectiveTotal = isMust ? 3 : totalQuestions;
+      final completionPercentage = effectiveTotal > 0
+          ? ((completedResponses / effectiveTotal) * 100).round()
           : 0;
 
-      if (questionnaireType.toLowerCase() == 'must') {
+      if (isMust) {
         print(
           '🎯 MUST DETAILED PROGRESS: $completedResponses/3 ($completionPercentage%)',
         );

@@ -1,0 +1,1386 @@
+[
+  {
+    "Codice Alimento": "3002_1",
+    "Energia, Ric con fibra (kcal)": 349,
+    "Proteine totali": 1.4,
+    "Lipidi totali": 0,
+    "Carboidrati disponibili (MSE)": "91.5",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "381_1",
+    "Energia, Ric con fibra (kcal)": 80,
+    "Proteine totali": 2.1,
+    "Lipidi totali": 0.1,
+    "Carboidrati disponibili (MSE)": "18",
+    "Fibra alimentare totale": "1.6"
+  },
+  {
+    "Codice Alimento": "304_1",
+    "Energia, Ric con fibra (kcal)": 33,
+    "Proteine totali": 3.6,
+    "Lipidi totali": 0.2,
+    "Carboidrati disponibili (MSE)": "3.3",
+    "Fibra alimentare totale": "2.1"
+  },
+  {
+    "Codice Alimento": "312_1",
+    "Energia, Ric con fibra (kcal)": 39,
+    "Proteine totali": 1.1,
+    "Lipidi totali": 0,
+    "Carboidrati disponibili (MSE)": "7.6",
+    "Fibra alimentare totale": "3.1"
+  },
+  {
+    "Codice Alimento": "342_1",
+    "Energia, Ric con fibra (kcal)": 13,
+    "Proteine totali": 0.8,
+    "Lipidi totali": 0.1,
+    "Carboidrati disponibili (MSE)": "1.8",
+    "Fibra alimentare totale": "1.3"
+  },
+  {
+    "Codice Alimento": "500013_1",
+    "Energia, Ric con fibra (kcal)": 53,
+    "Proteine totali": 1.3,
+    "Lipidi totali": 0.3,
+    "Carboidrati disponibili (MSE)": "10.2",
+    "Fibra alimentare totale": "3.2"
+  },
+  {
+    "Codice Alimento": "308_1",
+    "Energia, Ric con fibra (kcal)": 28,
+    "Proteine totali": 2.9,
+    "Lipidi totali": 0.3,
+    "Carboidrati disponibili (MSE)": "2",
+    "Fibra alimentare totale": "2.9"
+  },
+  {
+    "Codice Alimento": "309_1",
+    "Energia, Ric con fibra (kcal)": 33,
+    "Proteine totali": 3,
+    "Lipidi totali": 0.4,
+    "Carboidrati disponibili (MSE)": "3.1",
+    "Fibra alimentare totale": "3.1"
+  },
+  {
+    "Codice Alimento": "313_1",
+    "Energia, Ric con fibra (kcal)": 30,
+    "Proteine totali": 3.2,
+    "Lipidi totali": 0.2,
+    "Carboidrati disponibili (MSE)": "2.7",
+    "Fibra alimentare totale": "2.4"
+  },
+  {
+    "Codice Alimento": "315_1",
+    "Energia, Ric con fibra (kcal)": 48,
+    "Proteine totali": 4.2,
+    "Lipidi totali": 0.5,
+    "Carboidrati disponibili (MSE)": "4.3",
+    "Fibra alimentare totale": "5.2"
+  },
+  {
+    "Codice Alimento": "316_1",
+    "Energia, Ric con fibra (kcal)": 24,
+    "Proteine totali": 2.1,
+    "Lipidi totali": 0.1,
+    "Carboidrati disponibili (MSE)": "2.5",
+    "Fibra alimentare totale": "2.9"
+  },
+  {
+    "Codice Alimento": "317_1",
+    "Energia, Ric con fibra (kcal)": 22,
+    "Proteine totali": 1.9,
+    "Lipidi totali": 0.2,
+    "Carboidrati disponibili (MSE)": "2.7",
+    "Fibra alimentare totale": "1"
+  },
+  {
+    "Codice Alimento": "301_1",
+    "Energia, Ric con fibra (kcal)": 45,
+    "Proteine totali": 0.9,
+    "Lipidi totali": 0.6,
+    "Carboidrati disponibili (MSE)": "8.4",
+    "Fibra alimentare totale": "2.3"
+  },
+  {
+    "Codice Alimento": "322_1",
+    "Energia, Ric con fibra (kcal)": 28,
+    "Proteine totali": 1,
+    "Lipidi totali": 0.1,
+    "Carboidrati disponibili (MSE)": "5.7",
+    "Fibra alimentare totale": "1.1"
+  },
+  {
+    "Codice Alimento": "337_1",
+    "Energia, Ric con fibra (kcal)": 35,
+    "Proteine totali": 2.1,
+    "Lipidi totali": 0.1,
+    "Carboidrati disponibili (MSE)": "5.2",
+    "Fibra alimentare totale": "2.9"
+  },
+  {
+    "Codice Alimento": "328_1",
+    "Energia, Ric con fibra (kcal)": 32,
+    "Proteine totali": 3.9,
+    "Lipidi totali": 0.7,
+    "Carboidrati disponibili (MSE)": "1.4",
+    "Fibra alimentare totale": "2.5"
+  },
+  {
+    "Codice Alimento": "329_1",
+    "Energia, Ric con fibra (kcal)": 23,
+    "Proteine totali": 2.3,
+    "Lipidi totali": 0.4,
+    "Carboidrati disponibili (MSE)": "1.9",
+    "Fibra alimentare totale": "1.7"
+  },
+  {
+    "Codice Alimento": "603552_1",
+    "Energia, Ric con fibra (kcal)": 29,
+    "Proteine totali": 2.1,
+    "Lipidi totali": 0.7,
+    "Carboidrati disponibili (MSE)": "0.1",
+    "Fibra alimentare totale": "6.81"
+  },
+  {
+    "Codice Alimento": "603554_1",
+    "Energia, Ric con fibra (kcal)": 21,
+    "Proteine totali": 1.6,
+    "Lipidi totali": 0.5,
+    "Carboidrati disponibili (MSE)": "0.2",
+    "Fibra alimentare totale": "4.7"
+  },
+  {
+    "Codice Alimento": "100171_1",
+    "Energia, Ric con fibra (kcal)": 30,
+    "Proteine totali": 1.8,
+    "Lipidi totali": 0.5,
+    "Carboidrati disponibili (MSE)": "3.2",
+    "Fibra alimentare totale": "3.1"
+  },
+  {
+    "Codice Alimento": "100181_1",
+    "Energia, Ric con fibra (kcal)": 18,
+    "Proteine totali": 1.6,
+    "Lipidi totali": 0.2,
+    "Carboidrati disponibili (MSE)": "1.7",
+    "Fibra alimentare totale": "1.5"
+  },
+  {
+    "Codice Alimento": "307_1",
+    "Energia, Ric con fibra (kcal)": 19,
+    "Proteine totali": 1.3,
+    "Lipidi totali": 0.1,
+    "Carboidrati disponibili (MSE)": "2.8",
+    "Fibra alimentare totale": "1.2"
+  },
+  {
+    "Codice Alimento": "331_1",
+    "Energia, Ric con fibra (kcal)": 22,
+    "Proteine totali": 1.8,
+    "Lipidi totali": 0.4,
+    "Carboidrati disponibili (MSE)": "2.2",
+    "Fibra alimentare totale": "1.5"
+  },
+  {
+    "Codice Alimento": "339_1",
+    "Energia, Ric con fibra (kcal)": 18,
+    "Proteine totali": 1.4,
+    "Lipidi totali": 0.1,
+    "Carboidrati disponibili (MSE)": "1.6",
+    "Fibra alimentare totale": "3"
+  },
+  {
+    "Codice Alimento": "340_1",
+    "Energia, Ric con fibra (kcal)": 16,
+    "Proteine totali": 1.9,
+    "Lipidi totali": 0.5,
+    "Carboidrati disponibili (MSE)": "0.5",
+    "Fibra alimentare totale": "1"
+  },
+  {
+    "Codice Alimento": "345_1",
+    "Energia, Ric con fibra (kcal)": 35,
+    "Proteine totali": 3.4,
+    "Lipidi totali": 0.7,
+    "Carboidrati disponibili (MSE)": "3",
+    "Fibra alimentare totale": "1.9"
+  },
+  {
+    "Codice Alimento": "700169_1",
+    "Energia, Ric con fibra (kcal)": 28,
+    "Proteine totali": 2.6,
+    "Lipidi totali": 0.7,
+    "Carboidrati disponibili (MSE)": "2.1",
+    "Fibra alimentare totale": "1.6"
+  },
+  {
+    "Codice Alimento": "9001_1",
+    "Energia, Ric con fibra (kcal)": 19,
+    "Proteine totali": 1.5,
+    "Lipidi totali": 0.3,
+    "Carboidrati disponibili (MSE)": "1.5",
+    "Fibra alimentare totale": "2.1"
+  },
+  {
+    "Codice Alimento": "3001_1",
+    "Energia, Ric con fibra (kcal)": 100,
+    "Proteine totali": 3.9,
+    "Lipidi totali": 0.4,
+    "Carboidrati disponibili (MSE)": "20.4",
+    "Fibra alimentare totale": "2"
+  },
+  {
+    "Codice Alimento": "310_1",
+    "Energia, Ric con fibra (kcal)": 33,
+    "Proteine totali": 2.7,
+    "Lipidi totali": 0.2,
+    "Carboidrati disponibili (MSE)": "2.5",
+    "Fibra alimentare totale": "5.5"
+  },
+  {
+    "Codice Alimento": "318_1",
+    "Energia, Ric con fibra (kcal)": 15,
+    "Proteine totali": 0.7,
+    "Lipidi totali": 0.5,
+    "Carboidrati disponibili (MSE)": "1.8",
+    "Fibra alimentare totale": "0.6"
+  },
+  {
+    "Codice Alimento": "324_1",
+    "Energia, Ric con fibra (kcal)": 13,
+    "Proteine totali": 1.2,
+    "Lipidi totali": 0,
+    "Carboidrati disponibili (MSE)": "1",
+    "Fibra alimentare totale": "2.2"
+  },
+  {
+    "Codice Alimento": "334_1",
+    "Energia, Ric con fibra (kcal)": 20,
+    "Proteine totali": 1.1,
+    "Lipidi totali": 0.1,
+    "Carboidrati disponibili (MSE)": "2.6",
+    "Fibra alimentare totale": "2.6"
+  },
+  {
+    "Codice Alimento": "335_1",
+    "Energia, Ric con fibra (kcal)": 30,
+    "Proteine totali": 1.8,
+    "Lipidi totali": 0.5,
+    "Carboidrati disponibili (MSE)": "3.8",
+    "Fibra alimentare totale": "1.9"
+  },
+  {
+    "Codice Alimento": "336_1",
+    "Energia, Ric con fibra (kcal)": 26,
+    "Proteine totali": 0.9,
+    "Lipidi totali": 0.3,
+    "Carboidrati disponibili (MSE)": "4.2",
+    "Fibra alimentare totale": "1.9"
+  },
+  {
+    "Codice Alimento": "343_1",
+    "Energia, Ric con fibra (kcal)": 23,
+    "Proteine totali": 2.3,
+    "Lipidi totali": 0.2,
+    "Carboidrati disponibili (MSE)": "2.4",
+    "Fibra alimentare totale": "1.6"
+  },
+  {
+    "Codice Alimento": "347_1",
+    "Energia, Ric con fibra (kcal)": 19,
+    "Proteine totali": 1.1,
+    "Lipidi totali": 0.1,
+    "Carboidrati disponibili (MSE)": "3.5",
+    "Fibra alimentare totale": "0.5"
+  },
+  {
+    "Codice Alimento": "349_1",
+    "Energia, Ric con fibra (kcal)": 14,
+    "Proteine totali": 1.3,
+    "Lipidi totali": 0.1,
+    "Carboidrati disponibili (MSE)": "1.4",
+    "Fibra alimentare totale": "1.3"
+  },
+  {
+    "Codice Alimento": "390_1",
+    "Energia, Ric con fibra (kcal)": 21,
+    "Proteine totali": 1,
+    "Lipidi totali": 0.2,
+    "Carboidrati disponibili (MSE)": "3.5",
+    "Fibra alimentare totale": "0.9"
+  },
+  {
+    "Codice Alimento": "391_1",
+    "Energia, Ric con fibra (kcal)": 19,
+    "Proteine totali": 1.2,
+    "Lipidi totali": 0.2,
+    "Carboidrati disponibili (MSE)": "2.8",
+    "Fibra alimentare totale": "1.1"
+  },
+  {
+    "Codice Alimento": "392_1",
+    "Energia, Ric con fibra (kcal)": 22,
+    "Proteine totali": 1.2,
+    "Lipidi totali": 0.5,
+    "Carboidrati disponibili (MSE)": "3",
+    "Fibra alimentare totale": "0.9"
+  },
+  {
+    "Codice Alimento": "592_1",
+    "Energia, Ric con fibra (kcal)": 240,
+    "Proteine totali": 1.6,
+    "Lipidi totali": 25.1,
+    "Carboidrati disponibili (MSE)": "0.8",
+    "Fibra alimentare totale": "2.4"
+  },
+  {
+    "Codice Alimento": "900606_1",
+    "Energia, Ric con fibra (kcal)": 17,
+    "Proteine totali": 0.9,
+    "Lipidi totali": 0.1,
+    "Carboidrati disponibili (MSE)": "2.6",
+    "Fibra alimentare totale": "1.2"
+  },
+  {
+    "Codice Alimento": "900612_1",
+    "Energia, Ric con fibra (kcal)": 26,
+    "Proteine totali": 0.9,
+    "Lipidi totali": 0.2,
+    "Carboidrati disponibili (MSE)": "4.9",
+    "Fibra alimentare totale": "1.3"
+  },
+  {
+    "Codice Alimento": "100139_1",
+    "Energia, Ric con fibra (kcal)": 58,
+    "Proteine totali": 4.1,
+    "Lipidi totali": 0.5,
+    "Carboidrati disponibili (MSE)": "6.3",
+    "Fibra alimentare totale": "6.8"
+  },
+  {
+    "Codice Alimento": "100142_1",
+    "Energia, Ric con fibra (kcal)": 70,
+    "Proteine totali": 5.7,
+    "Lipidi totali": 0.4,
+    "Carboidrati disponibili (MSE)": "7.5",
+    "Fibra alimentare totale": "7.8"
+  },
+  {
+    "Codice Alimento": "101_1",
+    "Energia, Ric con fibra (kcal)": 24,
+    "Proteine totali": 2.1,
+    "Lipidi totali": 0.1,
+    "Carboidrati disponibili (MSE)": "2.4",
+    "Fibra alimentare totale": "2.9"
+  },
+  {
+    "Codice Alimento": "201_1",
+    "Energia, Ric con fibra (kcal)": 363,
+    "Proteine totali": 21.8,
+    "Lipidi totali": 4.9,
+    "Carboidrati disponibili (MSE)": "54.3",
+    "Fibra alimentare totale": "13.8"
+  },
+  {
+    "Codice Alimento": "202_1",
+    "Energia, Ric con fibra (kcal)": 345,
+    "Proteine totali": 23.6,
+    "Lipidi totali": 2.5,
+    "Carboidrati disponibili (MSE)": "51.7",
+    "Fibra alimentare totale": "17"
+  },
+  {
+    "Codice Alimento": "204_1",
+    "Energia, Ric con fibra (kcal)": 352,
+    "Proteine totali": 25,
+    "Lipidi totali": 2.5,
+    "Carboidrati disponibili (MSE)": "54",
+    "Fibra alimentare totale": "13.7"
+  },
+  {
+    "Codice Alimento": "206_1",
+    "Energia, Ric con fibra (kcal)": 337,
+    "Proteine totali": 21.7,
+    "Lipidi totali": 2,
+    "Carboidrati disponibili (MSE)": "53.6",
+    "Fibra alimentare totale": "15.7"
+  },
+  {
+    "Codice Alimento": "404_2",
+    "Energia, Ric con fibra (kcal)": 37,
+    "Proteine totali": 0.7,
+    "Lipidi totali": 0.2,
+    "Carboidrati disponibili (MSE)": "7.8",
+    "Fibra alimentare totale": "1.6"
+  },
+  {
+    "Codice Alimento": "406_2",
+    "Energia, Ric con fibra (kcal)": 69,
+    "Proteine totali": 1.2,
+    "Lipidi totali": 0.3,
+    "Carboidrati disponibili (MSE)": "15.4",
+    "Fibra alimentare totale": "1.8"
+  },
+  {
+    "Codice Alimento": "411_2",
+    "Energia, Ric con fibra (kcal)": 30,
+    "Proteine totali": 0.9,
+    "Lipidi totali": 0.4,
+    "Carboidrati disponibili (MSE)": "5.3",
+    "Fibra alimentare totale": "1.6"
+  },
+  {
+    "Codice Alimento": "413_2",
+    "Energia, Ric con fibra (kcal)": 15,
+    "Proteine totali": 0.6,
+    "Lipidi totali": 0,
+    "Carboidrati disponibili (MSE)": "2.3",
+    "Fibra alimentare totale": "1.9"
+  },
+  {
+    "Codice Alimento": "417_2",
+    "Energia, Ric con fibra (kcal)": 76,
+    "Proteine totali": 0.9,
+    "Lipidi totali": 0.3,
+    "Carboidrati disponibili (MSE)": "17.6",
+    "Fibra alimentare totale": "1.7"
+  },
+  {
+    "Codice Alimento": "419_2",
+    "Energia, Ric con fibra (kcal)": 57,
+    "Proteine totali": 0.3,
+    "Lipidi totali": 0.1,
+    "Carboidrati disponibili (MSE)": "13.7",
+    "Fibra alimentare totale": "2"
+  },
+  {
+    "Codice Alimento": "424_2",
+    "Energia, Ric con fibra (kcal)": 43,
+    "Proteine totali": 0.3,
+    "Lipidi totali": 0.1,
+    "Carboidrati disponibili (MSE)": "8.8",
+    "Fibra alimentare totale": "3.8"
+  },
+  {
+    "Codice Alimento": "428_2",
+    "Energia, Ric con fibra (kcal)": 64,
+    "Proteine totali": 0.5,
+    "Lipidi totali": 0.1,
+    "Carboidrati disponibili (MSE)": "15.6",
+    "Fibra alimentare totale": "1.5"
+  },
+  {
+    "Codice Alimento": "429_2",
+    "Energia, Ric con fibra (kcal)": 48,
+    "Proteine totali": 1.2,
+    "Lipidi totali": 0.6,
+    "Carboidrati disponibili (MSE)": "9",
+    "Fibra alimentare totale": "2.2"
+  },
+  {
+    "Codice Alimento": "606512_2",
+    "Energia, Ric con fibra (kcal)": 50,
+    "Proteine totali": 1.5,
+    "Lipidi totali": 0.3,
+    "Carboidrati disponibili (MSE)": "5.4",
+    "Fibra alimentare totale": "10.6"
+  },
+  {
+    "Codice Alimento": "8807_2",
+    "Energia, Ric con fibra (kcal)": 44,
+    "Proteine totali": 0.2,
+    "Lipidi totali": -2,
+    "Carboidrati disponibili (MSE)": "10",
+    "Fibra alimentare totale": "2.6"
+  },
+  {
+    "Codice Alimento": "512_2",
+    "Energia, Ric con fibra (kcal)": 604,
+    "Proteine totali": 31.9,
+    "Lipidi totali": 50.3,
+    "Carboidrati disponibili (MSE)": "4",
+    "Fibra alimentare totale": "4.5"
+  },
+  {
+    "Codice Alimento": "514_2",
+    "Energia, Ric con fibra (kcal)": 293,
+    "Proteine totali": 1.9,
+    "Lipidi totali": 0.6,
+    "Carboidrati disponibili (MSE)": "72",
+    "Fibra alimentare totale": "5.2"
+  },
+  {
+    "Codice Alimento": "414_2",
+    "Energia, Ric con fibra (kcal)": 6,
+    "Proteine totali": 0.2,
+    "Lipidi totali": 0,
+    "Carboidrati disponibili (MSE)": "1.4",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "608533_2",
+    "Energia, Ric con fibra (kcal)": 28,
+    "Proteine totali": 0.4,
+    "Lipidi totali": 0.3,
+    "Carboidrati disponibili (MSE)": "6.1",
+    "Fibra alimentare totale": "0.4"
+  },
+  {
+    "Codice Alimento": "1602_2",
+    "Energia, Ric con fibra (kcal)": 64,
+    "Proteine totali": 3.3,
+    "Lipidi totali": 3.6,
+    "Carboidrati disponibili (MSE)": "4.9",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1603_2",
+    "Energia, Ric con fibra (kcal)": 46,
+    "Proteine totali": 3.5,
+    "Lipidi totali": 1.5,
+    "Carboidrati disponibili (MSE)": "5",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1630_2",
+    "Energia, Ric con fibra (kcal)": 66,
+    "Proteine totali": 3.8,
+    "Lipidi totali": 3.9,
+    "Carboidrati disponibili (MSE)": "4.3",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "100020_2",
+    "Energia, Ric con fibra (kcal)": 379,
+    "Proteine totali": 29.5,
+    "Lipidi totali": 28.9,
+    "Carboidrati disponibili (MSE)": "0.2",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1706_2",
+    "Energia, Ric con fibra (kcal)": 381,
+    "Proteine totali": 25,
+    "Lipidi totali": 31,
+    "Carboidrati disponibili (MSE)": "0.5",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1710_2",
+    "Energia, Ric con fibra (kcal)": 343,
+    "Proteine totali": 24.5,
+    "Lipidi totali": 26.9,
+    "Carboidrati disponibili (MSE)": "0.8",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1713_2",
+    "Energia, Ric con fibra (kcal)": 324,
+    "Proteine totali": 19.1,
+    "Lipidi totali": 27.1,
+    "Carboidrati disponibili (MSE)": "1",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1718_2",
+    "Energia, Ric con fibra (kcal)": 253,
+    "Proteine totali": 18.7,
+    "Lipidi totali": 19.5,
+    "Carboidrati disponibili (MSE)": "0.7",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1721_2",
+    "Energia, Ric con fibra (kcal)": 392,
+    "Proteine totali": 25.8,
+    "Lipidi totali": 32,
+    "Carboidrati disponibili (MSE)": "0.2",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1725_2",
+    "Energia, Ric con fibra (kcal)": 300,
+    "Proteine totali": 18.5,
+    "Lipidi totali": 25.1,
+    "Carboidrati disponibili (MSE)": "-2",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1726_2",
+    "Energia, Ric con fibra (kcal)": 387,
+    "Proteine totali": 33.5,
+    "Lipidi totali": 28.1,
+    "Carboidrati disponibili (MSE)": "-2",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1799_2",
+    "Energia, Ric con fibra (kcal)": 330,
+    "Proteine totali": 20.8,
+    "Lipidi totali": 27,
+    "Carboidrati disponibili (MSE)": "0.9",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "8746_2",
+    "Energia, Ric con fibra (kcal)": 178,
+    "Proteine totali": 11.9,
+    "Lipidi totali": 14.3,
+    "Carboidrati disponibili (MSE)": "0.5",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "8075_2",
+    "Energia, Ric con fibra (kcal)": 367,
+    "Proteine totali": 9,
+    "Lipidi totali": 1.9,
+    "Carboidrati disponibili (MSE)": "82.9",
+    "Fibra alimentare totale": "1.3"
+  },
+  {
+    "Codice Alimento": "8603_2",
+    "Energia, Ric con fibra (kcal)": 353,
+    "Proteine totali": 14.6,
+    "Lipidi totali": 2.4,
+    "Carboidrati disponibili (MSE)": "69.3",
+    "Fibra alimentare totale": "6.5"
+  },
+  {
+    "Codice Alimento": "8834_2",
+    "Energia, Ric con fibra (kcal)": 160,
+    "Proteine totali": 3.5,
+    "Lipidi totali": 0.3,
+    "Carboidrati disponibili (MSE)": "36.9",
+    "Fibra alimentare totale": "2.4"
+  },
+  {
+    "Codice Alimento": "889001_2",
+    "Energia, Ric con fibra (kcal)": 376,
+    "Proteine totali": 15.4,
+    "Lipidi totali": 8.1,
+    "Carboidrati disponibili (MSE)": "57.8",
+    "Fibra alimentare totale": "12.2"
+  },
+  {
+    "Codice Alimento": "11_2",
+    "Energia, Ric con fibra (kcal)": 321,
+    "Proteine totali": 11.5,
+    "Lipidi totali": 1,
+    "Carboidrati disponibili (MSE)": "69.5",
+    "Fibra alimentare totale": "2.9"
+  },
+  {
+    "Codice Alimento": "12_2",
+    "Energia, Ric con fibra (kcal)": 323,
+    "Proteine totali": 11,
+    "Lipidi totali": 0.7,
+    "Carboidrati disponibili (MSE)": "71.6",
+    "Fibra alimentare totale": "2.2"
+  },
+  {
+    "Codice Alimento": "75_1",
+    "Energia, Ric con fibra (kcal)": 253,
+    "Proteine totali": 4,
+    "Lipidi totali": 4,
+    "Carboidrati disponibili (MSE)": "51.9",
+    "Fibra alimentare totale": "3.1"
+  },
+  {
+    "Codice Alimento": "76_1",
+    "Energia, Ric con fibra (kcal)": 279,
+    "Proteine totali": 5.6,
+    "Lipidi totali": 5.6,
+    "Carboidrati disponibili (MSE)": "52.9",
+    "Fibra alimentare totale": "3.8"
+  },
+  {
+    "Codice Alimento": "9090_2",
+    "Energia, Ric con fibra (kcal)": 315,
+    "Proteine totali": 7.2,
+    "Lipidi totali": 10.5,
+    "Carboidrati disponibili (MSE)": "49.9",
+    "Fibra alimentare totale": "2.2"
+  },
+  {
+    "Codice Alimento": "100061_2",
+    "Energia, Ric con fibra (kcal)": 151,
+    "Proteine totali": 32,
+    "Lipidi totali": 2.6,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1147_2",
+    "Energia, Ric con fibra (kcal)": 215,
+    "Proteine totali": 19.8,
+    "Lipidi totali": 14.7,
+    "Carboidrati disponibili (MSE)": "0.9",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1149_2",
+    "Energia, Ric con fibra (kcal)": 304,
+    "Proteine totali": 15.4,
+    "Lipidi totali": 26.7,
+    "Carboidrati disponibili (MSE)": "0.6",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1155_2",
+    "Energia, Ric con fibra (kcal)": 317,
+    "Proteine totali": 14.7,
+    "Lipidi totali": 28.1,
+    "Carboidrati disponibili (MSE)": "1.5",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "8718_2",
+    "Energia, Ric con fibra (kcal)": 384,
+    "Proteine totali": 26.5,
+    "Lipidi totali": 30.5,
+    "Carboidrati disponibili (MSE)": "1",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "9061_2",
+    "Energia, Ric con fibra (kcal)": 284,
+    "Proteine totali": 26.62,
+    "Lipidi totali": 19.74,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1020_2",
+    "Energia, Ric con fibra (kcal)": 145,
+    "Proteine totali": 19.8,
+    "Lipidi totali": 6.6,
+    "Carboidrati disponibili (MSE)": "1.7",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "8520_2",
+    "Energia, Ric con fibra (kcal)": 108,
+    "Proteine totali": 21.58,
+    "Lipidi totali": 2.38,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "8521_2",
+    "Energia, Ric con fibra (kcal)": 155,
+    "Proteine totali": 20.5,
+    "Lipidi totali": 8.15,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "8655_2",
+    "Energia, Ric con fibra (kcal)": 127,
+    "Proteine totali": 20.5,
+    "Lipidi totali": 5,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "8658_2",
+    "Energia, Ric con fibra (kcal)": 106,
+    "Proteine totali": 21.3,
+    "Lipidi totali": 2.3,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "8659_2",
+    "Energia, Ric con fibra (kcal)": 119,
+    "Proteine totali": 21.4,
+    "Lipidi totali": 3.7,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "8660_2",
+    "Energia, Ric con fibra (kcal)": 111,
+    "Proteine totali": 22,
+    "Lipidi totali": 2.6,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "8663_2",
+    "Energia, Ric con fibra (kcal)": 171,
+    "Proteine totali": 19.7,
+    "Lipidi totali": 10.2,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1006_2",
+    "Energia, Ric con fibra (kcal)": 92,
+    "Proteine totali": 20.7,
+    "Lipidi totali": 1,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1100_2",
+    "Energia, Ric con fibra (kcal)": 67,
+    "Proteine totali": 12.6,
+    "Lipidi totali": 1.8,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1204_2",
+    "Energia, Ric con fibra (kcal)": 142,
+    "Proteine totali": 20,
+    "Lipidi totali": 4.4,
+    "Carboidrati disponibili (MSE)": "5.9",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1205_2",
+    "Energia, Ric con fibra (kcal)": 232,
+    "Proteine totali": 17.1,
+    "Lipidi totali": 18,
+    "Carboidrati disponibili (MSE)": "0.4",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1087_2",
+    "Energia, Ric con fibra (kcal)": 194,
+    "Proteine totali": 20.9,
+    "Lipidi totali": 12.3,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "8677_2",
+    "Energia, Ric con fibra (kcal)": 171,
+    "Proteine totali": 19,
+    "Lipidi totali": 10.6,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "8678_2",
+    "Energia, Ric con fibra (kcal)": 110,
+    "Proteine totali": 19.4,
+    "Lipidi totali": 3.6,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "8685_2",
+    "Energia, Ric con fibra (kcal)": 125,
+    "Proteine totali": 18.4,
+    "Lipidi totali": 5.7,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "8686_2",
+    "Energia, Ric con fibra (kcal)": 107,
+    "Proteine totali": 18.5,
+    "Lipidi totali": 3.7,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "8689_2",
+    "Energia, Ric con fibra (kcal)": 100,
+    "Proteine totali": 23.3,
+    "Lipidi totali": 0.8,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "8697_2",
+    "Energia, Ric con fibra (kcal)": 107,
+    "Proteine totali": 24,
+    "Lipidi totali": 1.2,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "8699_2",
+    "Energia, Ric con fibra (kcal)": 126,
+    "Proteine totali": 17.9,
+    "Lipidi totali": 6,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "8785_2",
+    "Energia, Ric con fibra (kcal)": 109,
+    "Proteine totali": 21.9,
+    "Lipidi totali": 2.4,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1040_2",
+    "Energia, Ric con fibra (kcal)": 141,
+    "Proteine totali": 19.9,
+    "Lipidi totali": 6.8,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1041_2",
+    "Energia, Ric con fibra (kcal)": 268,
+    "Proteine totali": 17.2,
+    "Lipidi totali": 22.1,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1043_2",
+    "Energia, Ric con fibra (kcal)": 157,
+    "Proteine totali": 21.3,
+    "Lipidi totali": 8,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "8670_2",
+    "Energia, Ric con fibra (kcal)": 146,
+    "Proteine totali": 20.7,
+    "Lipidi totali": 7,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1082_2",
+    "Energia, Ric con fibra (kcal)": 138,
+    "Proteine totali": 22.1,
+    "Lipidi totali": 5.3,
+    "Carboidrati disponibili (MSE)": "0.5",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "100034_2",
+    "Energia, Ric con fibra (kcal)": 211,
+    "Proteine totali": 19,
+    "Lipidi totali": 15,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "100110_2",
+    "Energia, Ric con fibra (kcal)": 109,
+    "Proteine totali": 16.9,
+    "Lipidi totali": 4.2,
+    "Carboidrati disponibili (MSE)": "1",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1300_2",
+    "Energia, Ric con fibra (kcal)": 96,
+    "Proteine totali": 16.8,
+    "Lipidi totali": 2.6,
+    "Carboidrati disponibili (MSE)": "1.5",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1313_2",
+    "Energia, Ric con fibra (kcal)": 71,
+    "Proteine totali": 17,
+    "Lipidi totali": 0.3,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1319_2",
+    "Energia, Ric con fibra (kcal)": 129,
+    "Proteine totali": 20.8,
+    "Lipidi totali": 4.5,
+    "Carboidrati disponibili (MSE)": "1.5",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1322_2",
+    "Energia, Ric con fibra (kcal)": 86,
+    "Proteine totali": 16.9,
+    "Lipidi totali": 1.7,
+    "Carboidrati disponibili (MSE)": "0.8",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1323_2",
+    "Energia, Ric con fibra (kcal)": 82,
+    "Proteine totali": 16.5,
+    "Lipidi totali": 1.5,
+    "Carboidrati disponibili (MSE)": "0.6",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1325_2",
+    "Energia, Ric con fibra (kcal)": 159,
+    "Proteine totali": 21.5,
+    "Lipidi totali": 8.1,
+    "Carboidrati disponibili (MSE)": "0.1",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "700405_2",
+    "Energia, Ric con fibra (kcal)": 185,
+    "Proteine totali": 18.4,
+    "Lipidi totali": 12,
+    "Carboidrati disponibili (MSE)": "1",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "701264_2",
+    "Energia, Ric con fibra (kcal)": 105,
+    "Proteine totali": 17.4244,
+    "Lipidi totali": 3.6657,
+    "Carboidrati disponibili (MSE)": "0.7342",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "8734_2",
+    "Energia, Ric con fibra (kcal)": 159,
+    "Proteine totali": 19.7,
+    "Lipidi totali": 8.4,
+    "Carboidrati disponibili (MSE)": "1.2",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1304_2",
+    "Energia, Ric con fibra (kcal)": 68,
+    "Proteine totali": 12.6,
+    "Lipidi totali": 1.7,
+    "Carboidrati disponibili (MSE)": "0.6",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1307_2",
+    "Energia, Ric con fibra (kcal)": 84,
+    "Proteine totali": 11.7,
+    "Lipidi totali": 2.7,
+    "Carboidrati disponibili (MSE)": "3.4",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1316_2",
+    "Energia, Ric con fibra (kcal)": 57,
+    "Proteine totali": 10.6,
+    "Lipidi totali": 1,
+    "Carboidrati disponibili (MSE)": "1.4",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1320_2",
+    "Energia, Ric con fibra (kcal)": 72,
+    "Proteine totali": 14,
+    "Lipidi totali": 1.5,
+    "Carboidrati disponibili (MSE)": "0.7",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1328_2",
+    "Energia, Ric con fibra (kcal)": 72,
+    "Proteine totali": 10.2,
+    "Lipidi totali": 2.5,
+    "Carboidrati disponibili (MSE)": "2.2",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1501_2",
+    "Energia, Ric con fibra (kcal)": 206,
+    "Proteine totali": 25.9,
+    "Lipidi totali": 11.3,
+    "Carboidrati disponibili (MSE)": "0.2",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1514_2",
+    "Energia, Ric con fibra (kcal)": 192,
+    "Proteine totali": 25.2,
+    "Lipidi totali": 10.1,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1507_2",
+    "Energia, Ric con fibra (kcal)": 95,
+    "Proteine totali": 21.6,
+    "Lipidi totali": 1,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1309_2",
+    "Energia, Ric con fibra (kcal)": 71,
+    "Proteine totali": 13.6,
+    "Lipidi totali": 0.6,
+    "Carboidrati disponibili (MSE)": "2.9",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "9070_2",
+    "Energia, Ric con fibra (kcal)": 71,
+    "Proteine totali": 14.4,
+    "Lipidi totali": 0.84,
+    "Carboidrati disponibili (MSE)": "1.67",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1800_2",
+    "Energia, Ric con fibra (kcal)": 128,
+    "Proteine totali": 12.4,
+    "Lipidi totali": 8.7,
+    "Carboidrati disponibili (MSE)": "-2",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1802_2",
+    "Energia, Ric con fibra (kcal)": 325,
+    "Proteine totali": 15.8,
+    "Lipidi totali": 29.1,
+    "Carboidrati disponibili (MSE)": "-2",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "100166_2",
+    "Energia, Ric con fibra (kcal)": 900,
+    "Proteine totali": 0,
+    "Lipidi totali": 100,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "702901_2",
+    "Energia, Ric con fibra (kcal)": 899,
+    "Proteine totali": 0,
+    "Lipidi totali": 99.9,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "901_2",
+    "Energia, Ric con fibra (kcal)": 900,
+    "Proteine totali": 0,
+    "Lipidi totali": 100,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "902_2",
+    "Energia, Ric con fibra (kcal)": 900,
+    "Proteine totali": 0,
+    "Lipidi totali": 100,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "907_2",
+    "Energia, Ric con fibra (kcal)": 899,
+    "Proteine totali": -2,
+    "Lipidi totali": 99.9,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1900_2",
+    "Energia, Ric con fibra (kcal)": 758,
+    "Proteine totali": 0.8,
+    "Lipidi totali": 83.4,
+    "Carboidrati disponibili (MSE)": "1.1",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1903_2",
+    "Energia, Ric con fibra (kcal)": 661,
+    "Proteine totali": 8.4,
+    "Lipidi totali": 69.3,
+    "Carboidrati disponibili (MSE)": "1",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "1905_2",
+    "Energia, Ric con fibra (kcal)": 206,
+    "Proteine totali": 2.8,
+    "Lipidi totali": 20,
+    "Carboidrati disponibili (MSE)": "3.9",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "700796_2",
+    "Energia, Ric con fibra (kcal)": 2,
+    "Proteine totali": 0.12,
+    "Lipidi totali": 0.18,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "9031_2",
+    "Energia, Ric con fibra (kcal)": 2,
+    "Proteine totali": 0.12,
+    "Lipidi totali": 0.18,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "3000_2",
+    "Energia, Ric con fibra (kcal)": 411,
+    "Proteine totali": 20.4,
+    "Lipidi totali": 25.6,
+    "Carboidrati disponibili (MSE)": "11.5",
+    "Fibra alimentare totale": "27.7"
+  },
+  {
+    "Codice Alimento": "100207_1",
+    "Energia, Ric con fibra (kcal)": 301,
+    "Proteine totali": 3.9,
+    "Lipidi totali": 3.2,
+    "Carboidrati disponibili (MSE)": "55.5",
+    "Fibra alimentare totale": "24.4"
+  },
+  {
+    "Codice Alimento": "100217_1",
+    "Energia, Ric con fibra (kcal)": 442,
+    "Proteine totali": 8.8,
+    "Lipidi totali": 29,
+    "Carboidrati disponibili (MSE)": "26.3",
+    "Fibra alimentare totale": "23.7"
+  },
+  {
+    "Codice Alimento": "100284_1",
+    "Energia, Ric con fibra (kcal)": 88,
+    "Proteine totali": 3.2,
+    "Lipidi totali": 2.3,
+    "Carboidrati disponibili (MSE)": "9.9",
+    "Fibra alimentare totale": "8.8"
+  },
+  {
+    "Codice Alimento": "100286_1",
+    "Energia, Ric con fibra (kcal)": 395,
+    "Proteine totali": 14.1,
+    "Lipidi totali": 22.1,
+    "Carboidrati disponibili (MSE)": "24.2",
+    "Fibra alimentare totale": "24.7"
+  },
+  {
+    "Codice Alimento": "338_1",
+    "Energia, Ric con fibra (kcal)": 30,
+    "Proteine totali": 3.7,
+    "Lipidi totali": 0.6,
+    "Carboidrati disponibili (MSE)": "-2",
+    "Fibra alimentare totale": "5"
+  },
+  {
+    "Codice Alimento": "777010_1",
+    "Energia, Ric con fibra (kcal)": 22,
+    "Proteine totali": 2.6,
+    "Lipidi totali": 0.1,
+    "Carboidrati disponibili (MSE)": "2.1",
+    "Fibra alimentare totale": "1.5"
+  },
+  {
+    "Codice Alimento": "8001_1",
+    "Energia, Ric con fibra (kcal)": 49,
+    "Proteine totali": 3.1,
+    "Lipidi totali": 0.8,
+    "Carboidrati disponibili (MSE)": "5.1",
+    "Fibra alimentare totale": "5.2"
+  },
+  {
+    "Codice Alimento": "8004_1",
+    "Energia, Ric con fibra (kcal)": 341,
+    "Proteine totali": 7.6,
+    "Lipidi totali": 8.4,
+    "Carboidrati disponibili (MSE)": "48.6",
+    "Fibra alimentare totale": "26.3"
+  },
+  {
+    "Codice Alimento": "8012_1",
+    "Energia, Ric con fibra (kcal)": 408,
+    "Proteine totali": 11,
+    "Lipidi totali": 10.3,
+    "Carboidrati disponibili (MSE)": "49.5",
+    "Fibra alimentare totale": "42.8"
+  },
+  {
+    "Codice Alimento": "8013_1",
+    "Energia, Ric con fibra (kcal)": 111,
+    "Proteine totali": 1.4,
+    "Lipidi totali": 4.4,
+    "Carboidrati disponibili (MSE)": "13.5",
+    "Fibra alimentare totale": "7.7"
+  },
+  {
+    "Codice Alimento": "8014_1",
+    "Energia, Ric con fibra (kcal)": 366,
+    "Proteine totali": 4.9,
+    "Lipidi totali": 15.2,
+    "Carboidrati disponibili (MSE)": "46.4",
+    "Fibra alimentare totale": "17.65"
+  },
+  {
+    "Codice Alimento": "8015_1",
+    "Energia, Ric con fibra (kcal)": 145,
+    "Proteine totali": 3.9,
+    "Lipidi totali": 4.6,
+    "Carboidrati disponibili (MSE)": "15.6",
+    "Fibra alimentare totale": "14.7"
+  },
+  {
+    "Codice Alimento": "8019_1",
+    "Energia, Ric con fibra (kcal)": 337,
+    "Proteine totali": 11.4,
+    "Lipidi totali": 5.9,
+    "Carboidrati disponibili (MSE)": "61.5",
+    "Fibra alimentare totale": "3.9"
+  },
+  {
+    "Codice Alimento": "999964_1",
+    "Energia, Ric con fibra (kcal)": 270,
+    "Proteine totali": 10.9,
+    "Lipidi totali": 3.3,
+    "Carboidrati disponibili (MSE)": "38.3",
+    "Fibra alimentare totale": "26.5"
+  },
+  {
+    "Codice Alimento": "100205_1",
+    "Energia, Ric con fibra (kcal)": 4,
+    "Proteine totali": 0.4,
+    "Lipidi totali": 0,
+    "Carboidrati disponibili (MSE)": "0.6",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "701358_1",
+    "Energia, Ric con fibra (kcal)": 6,
+    "Proteine totali": 0.3,
+    "Lipidi totali": 0.4,
+    "Carboidrati disponibili (MSE)": "0.3",
+    "Fibra alimentare totale": "-2"
+  },
+  {
+    "Codice Alimento": "9040_1",
+    "Energia, Ric con fibra (kcal)": 5,
+    "Proteine totali": 0.73,
+    "Lipidi totali": 0.19,
+    "Carboidrati disponibili (MSE)": "0.12",
+    "Fibra alimentare totale": "0.01"
+  },
+  {
+    "Codice Alimento": "999999_2",
+    "Energia, Ric con fibra (kcal)": 0,
+    "Proteine totali": 0,
+    "Lipidi totali": 0,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  },
+  {
+    "Codice Alimento": "8021_1",
+    "Energia, Ric con fibra (kcal)": 0,
+    "Proteine totali": 0,
+    "Lipidi totali": 0,
+    "Carboidrati disponibili (MSE)": "0",
+    "Fibra alimentare totale": "0"
+  }
+]

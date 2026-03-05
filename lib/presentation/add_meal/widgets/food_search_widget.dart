@@ -419,8 +419,23 @@ class _FoodSearchWidgetState extends State<FoodSearchWidget> {
     final totalFat = ((recipe['total_fat_g'] as num?) ?? 0).toDouble();
     final totalFiber = ((recipe['total_fiber_g'] as num?) ?? 0).toDouble();
     final servings = (recipe['servings'] as int?) ?? 1;
+    final totalWeight =
+        ((recipe['total_weight_g'] as num?) ?? 0).toDouble();
 
-    // Calculate per 100g values
+    // Convert full-portion macros → per-100g values for portion scaling.
+    // total_protein_g / total_carbs_g / etc. are the full-portion totals
+    // (fixed by fix_recipe_macros.py). Dividing by total_weight_g gives the
+    // per-100g values that the UI uses when the user selects a quantity.
+    final proteinPer100g =
+        totalWeight > 0 ? (totalProtein / totalWeight) * 100 : 0.0;
+    final carbsPer100g =
+        totalWeight > 0 ? (totalCarbs / totalWeight) * 100 : 0.0;
+    final fatPer100g =
+        totalWeight > 0 ? (totalFat / totalWeight) * 100 : 0.0;
+    final fiberPer100g =
+        totalWeight > 0 ? (totalFiber / totalWeight) * 100 : 0.0;
+
+    // Calculate per 100g calorie value
     int caloriesPer100g = _calculateRecipeCaloriesPer100g(recipe);
 
     // CRITICAL FIX: If recipe has 0 total calories, it's invalid - skip it
@@ -453,10 +468,10 @@ class _FoodSearchWidgetState extends State<FoodSearchWidget> {
         (recipe['category'] as String?) ?? 'snack',
       ),
       'calories_per_100g': caloriesPer100g,
-      'protein': totalProtein,
-      'carbs': totalCarbs,
-      'fats': totalFat,
-      'fiber': totalFiber,
+      'protein': proteinPer100g,
+      'carbs': carbsPer100g,
+      'fats': fatPer100g,
+      'fiber': fiberPer100g,
       'servings': ['100g'],
       'servings_count': servings,
       'total_calories': totalCalories,
@@ -1880,22 +1895,17 @@ class _FoodSearchWidgetState extends State<FoodSearchWidget> {
   }
 
   int _calculateRecipeCaloriesPer100g(Map<String, dynamic> recipe) {
-    // Use calories_per_100g from DB if available (populated from CSV)
+    // total_calories / total_weight_g → per-100g calories.
+    // total_weight_g is always present after fix_recipe_macros.py.
+    final totalWeight = ((recipe['total_weight_g'] as num?) ?? 0).toDouble();
+    final totalCalories = (recipe['total_calories'] as int?) ?? 0;
+    if (totalWeight > 0 && totalCalories > 0) {
+      return ((totalCalories / totalWeight) * 100).round();
+    }
+    // Fallback: use pre-computed calories_per_100g column if available
     final dbCaloriesPer100g = (recipe['calories_per_100g'] as int?) ?? 0;
     if (dbCaloriesPer100g > 0) return dbCaloriesPer100g;
-
-    // Fallback: use total_weight_g from DB if available
-    final dbTotalWeight = ((recipe['total_weight_g'] as num?) ?? 0).toDouble();
-    final totalCalories = (recipe['total_calories'] as int?) ?? 0;
-    if (dbTotalWeight > 0 && totalCalories > 0) {
-      return ((totalCalories / dbTotalWeight) * 100).round();
-    }
-
-    // Last resort fallback: estimate with 250g per serving
-    final servings = (recipe['servings'] as int?) ?? 1;
-    if (servings == 0) return 0;
-    final totalWeight = 250.0 * servings;
-    return totalWeight > 0 ? ((totalCalories / totalWeight) * 100).round() : 0;
+    return 0;
   }
 
   String _translateCategory(String category) {

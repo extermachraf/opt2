@@ -13,6 +13,11 @@ import './services/user_settings_service.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Disable runtime font fetching from network to prevent crashes when
+  // fonts.gstatic.com is unreachable (e.g. emulator, offline, restricted network).
+  // Fonts will use device cache if available, otherwise fall back to system font.
+  GoogleFonts.config.allowRuntimeFetching = false;
+
   try {
     // Initialize Supabase first - CRITICAL for all providers
     await SupabaseService.instance.initialize();

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../theme/app_theme.dart';
 import './widgets/onboarding_page_widget.dart';
 import './widgets/page_indicator_widget.dart';
-import './widgets/privacy_consent_modal.dart';
 
 class OnboardingFlow extends StatefulWidget {
   const OnboardingFlow({Key? key}) : super(key: key);
@@ -21,8 +19,6 @@ class _OnboardingFlowState extends State<OnboardingFlow>
   late AnimationController _fadeController;
   late Animation<double> _fadeAnimation;
   int _currentPage = 0;
-  bool _showPrivacyModal = false;
-  bool _hasAcceptedPrivacy = false;
 
   final List<Map<String, dynamic>> _onboardingData = [
     {
@@ -105,15 +101,6 @@ class _OnboardingFlowState extends State<OnboardingFlow>
       CurvedAnimation(parent: _fadeController, curve: Curves.easeInOut),
     );
     _fadeController.forward();
-    _checkPrivacyConsentStatus();
-  }
-
-  Future<void> _checkPrivacyConsentStatus() async {
-    final prefs = await SharedPreferences.getInstance();
-    final hasAccepted = prefs.getBool('privacy_consent_accepted') ?? false;
-    setState(() {
-      _hasAcceptedPrivacy = hasAccepted;
-    });
   }
 
   @override
@@ -141,41 +128,7 @@ class _OnboardingFlowState extends State<OnboardingFlow>
   }
 
   void _handleOnboardingComplete() {
-    if (_hasAcceptedPrivacy) {
-      _navigateToDashboard();
-    } else {
-      _showPrivacyConsentModal();
-    }
-  }
-
-  void _showPrivacyConsentModal() {
-    setState(() {
-      _showPrivacyModal = true;
-    });
-
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => PrivacyConsentModal(
-        onAccept: () async {
-          final prefs = await SharedPreferences.getInstance();
-          await prefs.setBool('privacy_consent_accepted', true);
-
-          setState(() {
-            _hasAcceptedPrivacy = true;
-          });
-
-          Navigator.of(context).pop();
-          _navigateToDashboard();
-        },
-        onDecline: () {
-          Navigator.of(context).pop();
-          setState(() {
-            _showPrivacyModal = false;
-          });
-        },
-      ),
-    );
+    _navigateToDashboard();
   }
 
   void _navigateToDashboard() {

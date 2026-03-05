@@ -1,0 +1,75 @@
+-- Migration: Fix ingredient display names using BDA food names from Excel
+-- Only updates rows where the ingredient_name was a group label (e.g. Besciamella)
+-- Generated: 2026-02-23T17:01:55.629Z
+
+BEGIN;
+
+UPDATE recipe_ingredients SET ingredient_name = 'PANE, TIPO 1, pezzatura > 500g' WHERE id = '931a0b41-cc7a-49cc-96a3-5edc982b944c';
+UPDATE recipe_ingredients SET ingredient_name = 'CAFFE'' MOKA, in tazza' WHERE id = '1ea6db45-f800-42c5-8875-cd00329fa0e7';
+UPDATE recipe_ingredients SET ingredient_name = 'LATTE DI VACCA, INTERO, PASTORIZZATO' WHERE id = '14f50c44-d214-4f07-b3ac-f3424414c322';
+UPDATE recipe_ingredients SET ingredient_name = 'CAFFE'' BAR, in tazza' WHERE id = '8e5e5773-4c42-44f6-88b7-60ad905483fc';
+UPDATE recipe_ingredients SET ingredient_name = 'LATTE DI VACCA, INTERO, PASTORIZZATO' WHERE id = '180b0a6f-eb6d-406b-829b-f4208343693b';
+UPDATE recipe_ingredients SET ingredient_name = 'BOVINO, VITELLONE, 15-18 MESI, TAGLI DI CARNE MAGRA, senza grasso visibile' WHERE id = '8f46e6ac-2644-4e5b-8702-3cd6d3260543';
+UPDATE recipe_ingredients SET ingredient_name = 'TACCHINO, FUSO (COSCIA), con pelle' WHERE id = '9c9418a3-0525-46ad-9351-4a3e4156341a';
+UPDATE recipe_ingredients SET ingredient_name = 'BOVINO, LESSATO IN GELATINA, IN SCATOLA' WHERE id = '806ef478-88ef-44f5-b339-8c4816475979';
+UPDATE recipe_ingredients SET ingredient_name = 'LATTE DI VACCA, PARZIALMENTE SCREMATO, PASTORIZZATO' WHERE id = 'da891532-2655-4b69-9b9f-011dbdc67f1f';
+UPDATE recipe_ingredients SET ingredient_name = 'BURRO' WHERE id = '32d9f6b8-9d87-48f5-92b7-4d7876f61fa4';
+UPDATE recipe_ingredients SET ingredient_name = 'FARINA DI FRUMENTO, TIPO 0' WHERE id = 'b790681b-784f-42a9-aafb-b8ef7fd4c667';
+UPDATE recipe_ingredients SET ingredient_name = 'SALE da cucina' WHERE id = 'dbf2524e-3e76-4f32-8071-38cf6172a77d';
+UPDATE recipe_ingredients SET ingredient_name = 'NOCE MOSCATA' WHERE id = '922aa583-e2c3-426c-ae4d-7c0491a152a3';
+UPDATE recipe_ingredients SET ingredient_name = 'PATATE' WHERE id = '11c66c4c-a7fa-4654-add0-2b818e5ffc6d';
+UPDATE recipe_ingredients SET ingredient_name = 'FARINA DI FRUMENTO, TIPO 00' WHERE id = '4857a0af-36e2-46e8-af1e-e0382da1c800';
+UPDATE recipe_ingredients SET ingredient_name = 'UOVO DI GALLINA, INTERO' WHERE id = 'f418da28-c44e-42da-b89f-e9211384ba4a';
+UPDATE recipe_ingredients SET ingredient_name = 'SALE da cucina' WHERE id = '3c2eb94a-4884-4db1-a3ae-f6d940b838dd';
+UPDATE recipe_ingredients SET ingredient_name = 'PATATE' WHERE id = '81bc0ffa-7e93-4525-bd39-e9489b15133a';
+UPDATE recipe_ingredients SET ingredient_name = 'FARINA DI FRUMENTO, TIPO 00' WHERE id = 'b0329a4c-300e-4084-9e36-d16ac75701d7';
+UPDATE recipe_ingredients SET ingredient_name = 'UOVO DI GALLINA, INTERO' WHERE id = '1977c415-bb26-4173-8daf-9f9e171721c7';
+UPDATE recipe_ingredients SET ingredient_name = 'SALE da cucina' WHERE id = '58d9a0cd-6575-4f26-b457-875d2adc4405';
+UPDATE recipe_ingredients SET ingredient_name = 'BASILICO, fresco' WHERE id = '27565f1d-b5d1-46dd-ab49-d4263557b09e';
+UPDATE recipe_ingredients SET ingredient_name = 'BASILICO, fresco' WHERE id = '7d0898cb-3f40-4612-9592-d6cdcf7c3f37';
+UPDATE recipe_ingredients SET ingredient_name = 'BASILICO, fresco' WHERE id = 'd3a9fe5f-04d0-485d-bf49-95d946af4378';
+UPDATE recipe_ingredients SET ingredient_name = 'PECORINO DA GRATTUGIARE' WHERE id = '60508ceb-a816-43d0-9b58-14b99bd5d1af';
+UPDATE recipe_ingredients SET ingredient_name = 'PARMIGIANO' WHERE id = '5c6fa98a-8cb9-4014-9cf5-eed9e32b8ce0';
+UPDATE recipe_ingredients SET ingredient_name = 'PINOLI' WHERE id = 'dbdc07b2-a3ed-4474-9f16-9489788431fb';
+UPDATE recipe_ingredients SET ingredient_name = 'AGLIO, fresco' WHERE id = '32dff315-b3ef-4379-a19d-943390eba345';
+UPDATE recipe_ingredients SET ingredient_name = 'PATATE' WHERE id = '314ac831-f1c7-4983-b35b-fac5eee0912e';
+UPDATE recipe_ingredients SET ingredient_name = 'FARINA DI FRUMENTO, TIPO 00' WHERE id = '33b6617b-63e9-4742-bd5e-4d449490ceb7';
+UPDATE recipe_ingredients SET ingredient_name = 'UOVO DI GALLINA, INTERO' WHERE id = '4bd86594-ef30-4ff9-838f-def94d41b5bd';
+UPDATE recipe_ingredients SET ingredient_name = 'SALE da cucina' WHERE id = '4cdc8cd2-0d8a-4bc4-9cf5-e03fb663ca66';
+UPDATE recipe_ingredients SET ingredient_name = 'PATATE' WHERE id = '9b3bff3f-b857-4eee-a8c1-9045934b1754';
+UPDATE recipe_ingredients SET ingredient_name = 'FARINA DI FRUMENTO, TIPO 00' WHERE id = '44028dee-01fa-427e-9f83-fefdbaed1fea';
+UPDATE recipe_ingredients SET ingredient_name = 'UOVO DI GALLINA, INTERO' WHERE id = '1b7fe3f0-3473-49a5-b975-2e802a43a618';
+UPDATE recipe_ingredients SET ingredient_name = 'SALE da cucina' WHERE id = '218b9ca0-a2f1-4fc8-99a7-ee06d434fc52';
+UPDATE recipe_ingredients SET ingredient_name = 'BOVINO, VITELLONE, 15-18 MESI, TAGLI DI CARNE GRASSA, senza grasso visibile' WHERE id = '51f8c7e0-5adb-45af-93c8-116fcc67145d';
+UPDATE recipe_ingredients SET ingredient_name = 'PATATE' WHERE id = 'bb33e7e2-9d8b-47f7-98a9-c80fc80a2247';
+UPDATE recipe_ingredients SET ingredient_name = 'FARINA DI FRUMENTO, TIPO 00' WHERE id = '7f71f98a-4a0e-47d9-a2ff-74ee7d52b54c';
+UPDATE recipe_ingredients SET ingredient_name = 'UOVO DI GALLINA, INTERO' WHERE id = '51d6b695-aa6e-425c-95ba-8940b1383605';
+UPDATE recipe_ingredients SET ingredient_name = 'SALE da cucina' WHERE id = '5a9fe760-285b-4823-80be-d3fb71991e18';
+UPDATE recipe_ingredients SET ingredient_name = 'PATATE' WHERE id = '63065c04-1d11-4ed9-9ab6-26e672fdf24b';
+UPDATE recipe_ingredients SET ingredient_name = 'FARINA DI FRUMENTO, TIPO 00' WHERE id = '0e87f1d8-9a72-494c-be09-3839bbdfb955';
+UPDATE recipe_ingredients SET ingredient_name = 'UOVO DI GALLINA, INTERO' WHERE id = 'e8be9189-b5f9-4c02-9e65-a6a249a384f4';
+UPDATE recipe_ingredients SET ingredient_name = 'SALE da cucina' WHERE id = '1573abcc-f98e-4a36-8184-ff7dbc7505bc';
+UPDATE recipe_ingredients SET ingredient_name = 'BOVINO, VITELLONE, 15-18 MESI, TAGLI DI CARNE GRASSA, senza grasso visibile' WHERE id = '027aba64-98ba-444a-88a3-a3142f33800e';
+UPDATE recipe_ingredients SET ingredient_name = 'Peperoni, dolci' WHERE id = 'e770faba-e6de-40c7-b9a5-3776a3ff5e97';
+UPDATE recipe_ingredients SET ingredient_name = 'INSALATA, NS' WHERE id = '1abcdef1-2345-6789-0abc-def123456789';
+UPDATE recipe_ingredients SET ingredient_name = 'BOVINO, VITELLONE, 15-18 MESI, TAGLI DI CARNE MAGRA, senza grasso visibile' WHERE id = '187d3cc9-4aaf-4a7b-8dcc-0c1b950b2880';
+UPDATE recipe_ingredients SET ingredient_name = 'LATTE DI VACCA, PARZIALMENTE SCREMATO, PASTORIZZATO' WHERE id = 'f9645e27-a69e-4bc1-8f1c-38e4c0e4d67b';
+UPDATE recipe_ingredients SET ingredient_name = 'BURRO' WHERE id = 'a448819d-2c03-4fbd-b384-de8288c611ce';
+UPDATE recipe_ingredients SET ingredient_name = 'FARINA DI FRUMENTO, TIPO 0' WHERE id = 'c06e8c15-2a32-47d4-a67a-7dff8f615588';
+UPDATE recipe_ingredients SET ingredient_name = 'SALE da cucina' WHERE id = 'a3f27bed-7497-44c1-b277-9c92d43e9ef1';
+UPDATE recipe_ingredients SET ingredient_name = 'NOCE MOSCATA' WHERE id = '0b89ec8c-132f-4ab7-a287-0ed74b693c46';
+UPDATE recipe_ingredients SET ingredient_name = 'PARMIGIANO' WHERE id = '42f4b2f0-a3b6-4c2a-9dd8-a6883f639bca';
+UPDATE recipe_ingredients SET ingredient_name = 'LATTE DI VACCA, INTERO, PASTORIZZATO' WHERE id = '025a9211-b468-4a21-8c3e-da436fdba1ac';
+UPDATE recipe_ingredients SET ingredient_name = 'CAFFE'' MOKA, in tazza' WHERE id = 'ab9de252-c802-4bf9-b713-c7063a39bd30';
+UPDATE recipe_ingredients SET ingredient_name = 'MOZZARELLA DI VACCA' WHERE id = 'b1bd43ff-7826-4f87-a79f-8071dee1aa21';
+UPDATE recipe_ingredients SET ingredient_name = 'FAGIOLI, IN SCATOLA' WHERE id = '08a96c3b-79b5-40d8-a2a5-d75f31f49e46';
+UPDATE recipe_ingredients SET ingredient_name = 'PANE, TOSTATO' WHERE id = '019ba4aa-19a4-4675-b8bc-fc37c6d53885';
+UPDATE recipe_ingredients SET ingredient_name = 'PARMIGIANO' WHERE id = 'dec94fd8-27e6-4ca2-9476-90bce43111a1';
+UPDATE recipe_ingredients SET ingredient_name = 'PANE, TOSTATO' WHERE id = 'f02dea5f-e765-4c30-8a8d-ad2efa30cd8c';
+UPDATE recipe_ingredients SET ingredient_name = 'PARMIGIANO' WHERE id = '13e957ba-c1fc-4875-8b92-01084360be6d';
+UPDATE recipe_ingredients SET ingredient_name = 'PANE COMUNE, pezzatura da 250g' WHERE id = 'cdc1c399-e1ff-4703-abcc-fbfcefd92058';
+UPDATE recipe_ingredients SET ingredient_name = 'BOVINO, VITELLONE, 15-18 MESI, TAGLI DI CARNE SEMIGRASSA, senza grasso visibile' WHERE id = '915b0ace-ca38-4d80-86b6-1e1c5d8b153e';
+UPDATE recipe_ingredients SET ingredient_name = 'PANE COMUNE, pezzatura da 250g' WHERE id = 'f3841c77-0cbc-4bda-8978-6a2d93e8d957';
+UPDATE recipe_ingredients SET ingredient_name = 'PANE COMUNE, pezzatura da 250g' WHERE id = 'b18f11cf-1430-4587-97a1-66c936a399a2';
+
+COMMIT;

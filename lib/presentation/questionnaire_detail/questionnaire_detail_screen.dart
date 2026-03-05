@@ -48,8 +48,16 @@ class _QuestionnaireDetailScreenState extends State<QuestionnaireDetailScreen> {
   }
 
   // Helper method to check if this is a MUST questionnaire
+  // Checks both navigation args and progressData (fallback) for robustness
   bool _isMustQuestionnaire() {
-    return _questionnaireType?.toLowerCase() == 'must';
+    if (_questionnaireType?.toLowerCase() == 'must') return true;
+    // Fallback: check from progressData in case questionnaireType was not set
+    // correctly from navigation args (e.g. empty templateId fallback path)
+    if (_progressData.isNotEmpty) {
+      final typeFromData = _progressData['questionnaire_type'] as String?;
+      if (typeFromData?.toLowerCase() == 'must') return true;
+    }
+    return false;
   }
 
   // Helper method to check if this is an NRS 2002 questionnaire
@@ -67,64 +75,43 @@ class _QuestionnaireDetailScreenState extends State<QuestionnaireDetailScreen> {
     return _questionnaireType?.toLowerCase() == 'esas';
   }
 
-  // CRITICAL FIX: Enhanced completed questions calculation with MUST-specific handling
+  // Count from in-memory _responses for ALL questionnaires (including MUST).
+  // _progressData['completed_responses'] is loaded once at init and never refreshed,
+  // so using it for MUST caused the bar to stay at 0 throughout the session.
   int _getCompletedQuestionsCount() {
     if (_questions.isEmpty) return 0;
 
-    // For MUST questionnaire, use enhanced progress data with validation
-    if (_isMustQuestionnaire() && _progressData.isNotEmpty) {
-      final completedFromProgress =
-          _progressData['completed_responses'] as int? ?? 0;
-
-      // Validate that completed doesn't exceed 3 for MUST
-      final validatedCompleted =
-          completedFromProgress > 3 ? 3 : completedFromProgress;
-
-      print(
-        'MUST COMPLETED QUESTIONS: $validatedCompleted (validated from progress data)',
-      );
-      return validatedCompleted;
-    }
-
-    // For other questionnaires, count responses normally
     int completedCount = 0;
 
     for (final question in _questions) {
       final questionId = question['question_id'] as String;
       final questionType = question['question_type'] as String;
 
-      // Check if this question has a valid response
       final response = _responses[questionId];
-
       if (response != null) {
         final value = response['value']?.toString() ?? '';
-
-        // Count as completed if it has a non-empty value or is a calculated question
+        // Calculated questions are always considered answered once they appear
         if (questionType == 'calculated' || value.trim().isNotEmpty) {
           completedCount++;
         }
       }
     }
 
-    print(
-      'OTHER QUESTIONNAIRE COMPLETED: $completedCount out of ${_questions.length}',
-    );
+    if (_isMustQuestionnaire()) {
+      final capped = completedCount.clamp(0, 3);
+      print('MUST COMPLETED QUESTIONS: $capped (from live responses)');
+      return capped;
+    }
+
+    print('OTHER QUESTIONNAIRE COMPLETED: $completedCount out of ${_questions.length}');
     return completedCount;
   }
 
   // CRITICAL FIX: Enhanced total questions calculation with better MUST handling
   int _getTotalQuestionsCount() {
-    // For MUST questionnaire, ALWAYS return 3 regardless of database content
+    // For MUST questionnaire, ALWAYS return exactly 3 regardless of DB content or progress data
     if (_isMustQuestionnaire()) {
-      // Try to get from enhanced progress data first
-      if (_progressData.isNotEmpty) {
-        final total = _progressData['total_questions'] as int? ?? 3;
-        print('MUST TOTAL QUESTIONS: $total (from progress data)');
-        return total;
-      }
-
-      print('MUST TOTAL QUESTIONS: 3 (hardcoded fallback)');
-      return 3; // Force to 3 for MUST questionnaire as requested
+      return 3;
     }
 
     final actualCount = _questions.length;
@@ -132,22 +119,14 @@ class _QuestionnaireDetailScreenState extends State<QuestionnaireDetailScreen> {
     return actualCount;
   }
 
-  // CRITICAL FIX: Enhanced progress display method
+  // Progress display — unified: both MUST and other questionnaires use
+  // _getCompletedQuestionsCount() which now reads from live _responses.
   String _getProgressDisplayText() {
-    if (_isMustQuestionnaire() && _progressData.isNotEmpty) {
-      final displayFormat = _progressData['display_format'] as String?;
-      if (displayFormat != null && displayFormat.isNotEmpty) {
-        print('MUST PROGRESS DISPLAY: Using format "$displayFormat"');
-        return displayFormat;
-      }
-    }
-
     final completed = _getCompletedQuestionsCount();
-    final total = _getTotalQuestionsCount();
-    final displayText = '$completed/$total';
+    final total = _getTotalQuestionsCount(); // MUST → 3, others → _questions.length
 
-    print('PROGRESS DISPLAY: $displayText');
-    return displayText;
+    print('PROGRESS DISPLAY: $completed/$total');
+    return '$completed/$total';
   }
 
   // Helper method to check if questionnaire is fully completed
@@ -428,22 +407,52 @@ class _QuestionnaireDetailScreenState extends State<QuestionnaireDetailScreen> {
             _templateId = resolvedTemplateId;
           });
 
-          // CRITICAL FIX: Filter conditional questions for NRS 2002
-          if (_isNrs2002Questionnaire()) {
-            _filterConditionalQuestions();
-          }
+          // NOTE: NRS 2002 conditional filtering moved AFTER responses are loaded
+          // so that _filterConditionalQuestions() can see existing "Sì" answers.
         }
 
         // Load existing responses if any
         if (_sessionId != null && _sessionId!.isNotEmpty) {
+          print('═══════════════════════════════════════════════════════════');
+          print('🔄 DEBUG DETAIL: Loading responses for sessionId=$_sessionId');
+          print('🔄 DEBUG DETAIL: questionnaireType=$_questionnaireType');
+          print('═══════════════════════════════════════════════════════════');
+
           final existingResponses =
               await _questionnaireService.getSessionResponses(_sessionId!);
+
+          print('═══════════════════════════════════════════════════════════');
+          print('🔄 DEBUG DETAIL: Responses loaded: ${existingResponses.length}');
+          print('🔄 DEBUG DETAIL: Response keys: ${existingResponses.keys.toList()}');
+          print('🔄 DEBUG DETAIL: Responses isEmpty? ${existingResponses.isEmpty}');
+          print('═══════════════════════════════════════════════════════════');
+
           setState(() {
             _responses = existingResponses;
           });
 
+          // CRITICAL FIX: Filter conditional questions for NRS 2002 AFTER responses
+          // are loaded, so existing "Sì" answers are visible and Q6/Q7 are kept.
+          if (_isNrs2002Questionnaire()) {
+            _filterConditionalQuestions();
+          }
+
           // CRITICAL FIX: Load dynamic progress data for MUST questionnaire
+          // _progressData is needed FIRST so _isMustQuestionnaire() can also
+          // check progressData['questionnaire_type'] as a fallback.
           await _loadProgressData();
+
+          // CRITICAL FIX: Cap MUST questionnaire to exactly 3 questions.
+          // Must run AFTER _loadProgressData() so _isMustQuestionnaire() can
+          // use progressData as fallback when questionnaireType arg is missing.
+          if (_isMustQuestionnaire() && _questions.length > 3) {
+            print(
+              '🔒 MUST: Capping questions from ${_questions.length} to 3 (DB has extra records from old migrations)',
+            );
+            setState(() {
+              _questions = _questions.take(3).toList();
+            });
+          }
 
           // CRITICAL FIX: Calculate and set current question index based on progress
           await _calculateAndSetCurrentQuestionIndex();
@@ -489,19 +498,19 @@ class _QuestionnaireDetailScreenState extends State<QuestionnaireDetailScreen> {
     if (!_isNrs2002Questionnaire()) return;
 
     // Check if any of Q2-Q5 has answer "Sì"
-    final hasYesInScreening = _responses.values.any((response) {
-      final questionId = response['question_id'] as String?;
-      final value = response['value'] as String?;
+    // Use map entries (key = question_id) instead of relying on a 'question_id'
+    // field inside the value — getSessionResponses() does not include that field.
+    final screeningQuestionIds = [
+      'nrs_weight_loss_3m',
+      'nrs_reduced_intake',
+      'nrs_acute_pathology',
+      'nrs_intensive_care'
+    ];
 
-      // Check if this is one of the screening questions (Q2-Q5)
-      final isScreeningQuestion = [
-        'nrs_weight_loss_3m',
-        'nrs_reduced_intake',
-        'nrs_acute_pathology',
-        'nrs_intensive_care'
-      ].contains(questionId);
-
-      return isScreeningQuestion && value == 'Sì';
+    final hasYesInScreening = _responses.entries.any((entry) {
+      final questionId = entry.key;
+      final value = (entry.value as Map<String, dynamic>?)?['value'] as String?;
+      return screeningQuestionIds.contains(questionId) && value == 'Sì';
     });
 
     print('NRS 2002 CONDITIONAL FILTER: hasYesInScreening=$hasYesInScreening');
@@ -634,7 +643,16 @@ class _QuestionnaireDetailScreenState extends State<QuestionnaireDetailScreen> {
   }
 
   Future<void> _calculateAndSetCurrentQuestionIndex() async {
+    print('═══════════════════════════════════════════════════════════');
+    print('📍 DEBUG RESUME: _calculateAndSetCurrentQuestionIndex called');
+    print('📍 DEBUG RESUME: _questions.length=${_questions.length}');
+    print('📍 DEBUG RESUME: _responses.length=${_responses.length}');
+    print('📍 DEBUG RESUME: _responses.isEmpty=${_responses.isEmpty}');
+    print('📍 DEBUG RESUME: _responses.keys=${_responses.keys.toList()}');
+    print('═══════════════════════════════════════════════════════════');
+
     if (_questions.isEmpty || _responses.isEmpty) {
+      print('⚠️ DEBUG RESUME: EARLY RETURN → page 0 because questions.isEmpty=${_questions.isEmpty} || responses.isEmpty=${_responses.isEmpty}');
       setState(() {
         _currentQuestionIndex = 0;
       });
@@ -768,8 +786,8 @@ class _QuestionnaireDetailScreenState extends State<QuestionnaireDetailScreen> {
     String? displayValue;
     int? score;
 
-    // CRITICAL FIX: Enhanced NRS 2002 BMI question handling with improved auto-assignment
-    if (questionId == 'nrs_bmi_under_20_5' && _isNrs2002Questionnaire()) {
+    // NRS 2002 BMI: always score 0 (screening question only, no points)
+    if (questionId == 'nrs_bmi_under_20_5') {
       final bmi = _calculatedValues['bmi'];
       if (bmi != null) {
         // NRS 2002 specific BMI categorization with enhanced feedback
@@ -777,17 +795,21 @@ class _QuestionnaireDetailScreenState extends State<QuestionnaireDetailScreen> {
         calculatedValue = isUnder20_5 ? 'Sì' : 'No';
         displayValue =
             'BMI: ${bmi.toStringAsFixed(1)} - ${isUnder20_5 ? "Sotto 20.5 (fattore di rischio)" : "Sopra o uguale a 20.5 (normale)"}';
-        // NRS 2002 Q1-Q5 are screening questions with NO scores
-        score = null;
+        // NRS 2002 BMI is a screening question: always 0 points
+        score = 0;
 
         print(
           'NRS 2002 BMI CALCULATION: BMI=$bmi, under20.5=$isUnder20_5, NO SCORE (screening question)',
         );
 
-        // CRITICAL FIX: Auto-assign the response immediately for NRS 2002 BMI calculation
+        // Always re-save NRS 2002 BMI response: value OR score may have changed
+        // (old sessions may have response_score=1 from before the DB fix;
+        //  comparing only the value would skip the update since 'Sì' hasn't changed).
         WidgetsBinding.instance.addPostFrameCallback((_) async {
+          final existingScore = _responses[questionId]?['score'];
           if (_responses[questionId] == null ||
-              _responses[questionId]!['value'] != calculatedValue) {
+              _responses[questionId]!['value'] != calculatedValue ||
+              existingScore != score) {
             await _saveResponse(
               questionId,
               calculatedValue!,
@@ -795,7 +817,7 @@ class _QuestionnaireDetailScreenState extends State<QuestionnaireDetailScreen> {
               calculatedValue: displayValue,
             );
             print(
-              'AUTO-SAVED NRS 2002 BMI RESPONSE: $calculatedValue with score $score',
+              'AUTO-SAVED NRS 2002 BMI RESPONSE: $calculatedValue with score $score (was $existingScore)',
             );
 
             // CRITICAL FIX: Force immediate UI update for NRS 2002
@@ -822,18 +844,17 @@ class _QuestionnaireDetailScreenState extends State<QuestionnaireDetailScreen> {
     else if (questionId == 'must_bmi_calculated') {
       final bmi = _calculatedValues['bmi'];
       if (bmi != null) {
-        // MUST-specific BMI categorization with EXACT scoring criteria as requested
+        // MUST BMI scoring: BMI > 20 → 0, 18,5 < BMI < 20 → 1, BMI < 18,5 → 2
         if (bmi < 18.5) {
-          calculatedValue = 'BMI < 18.5';
+          calculatedValue = 'BMI < 18,5';
           displayValue = 'BMI: ${bmi.toStringAsFixed(1)} (Sottopeso grave)';
           score = 2;
-        } else if (bmi >= 18.5 && bmi < 20.0) {
-          calculatedValue = '18.5 ≤ BMI < 20';
-          displayValue =
-              'BMI: ${bmi.toStringAsFixed(1)} (Lievemente sottopeso)';
+        } else if (bmi <= 20.0) {
+          calculatedValue = '18,5 < BMI < 20';
+          displayValue = 'BMI: ${bmi.toStringAsFixed(1)} (Lievemente sottopeso)';
           score = 1;
         } else {
-          calculatedValue = 'BMI ≥ 20';
+          calculatedValue = 'BMI > 20';
           displayValue = 'BMI: ${bmi.toStringAsFixed(1)} (Normale o superiore)';
           score = 0;
         }
@@ -849,7 +870,7 @@ class _QuestionnaireDetailScreenState extends State<QuestionnaireDetailScreen> {
             int bmiScore;
             if (bmi < 18.5) {
               bmiScore = 2;
-            } else if (bmi >= 18.5 && bmi < 20.0) {
+            } else if (bmi <= 20.0) {
               bmiScore = 1;
             } else {
               bmiScore = 0;
@@ -881,13 +902,13 @@ class _QuestionnaireDetailScreenState extends State<QuestionnaireDetailScreen> {
         calculatedValue = bmi.toStringAsFixed(1);
         displayValue = 'BMI: $calculatedValue';
 
-        // For general BMI < 20.5 questions
+        // For general BMI < 20.5 questions (screening only — always score 0)
         if (questionId.contains('20_5') || questionId.contains('under')) {
           final isUnder20_5 = bmi < 20.5;
           calculatedValue = isUnder20_5 ? 'Sì' : 'No';
           displayValue =
               'BMI: ${bmi.toStringAsFixed(1)} - ${isUnder20_5 ? "Sotto 20.5" : "Sopra o uguale a 20.5"}';
-          score = isUnder20_5 ? 1 : 0;
+          score = 0; // Screening questions never contribute points
         }
       }
     }
@@ -1225,13 +1246,17 @@ class _QuestionnaireDetailScreenState extends State<QuestionnaireDetailScreen> {
               child: _buildChoiceCard(
                 'Sì',
                 currentValue == 'Sì',
-                // CRITICAL FIX: Use scores from database instead of hardcoded values
+                // NRS 2002 Q2-Q5 are screening questions with no score.
+                // Detect by question ID prefix too, in case _isNrs2002Questionnaire()
+                // returns false (e.g. when _questionnaireType is not set from args).
                 () => _saveResponse(
                   questionId,
                   'Sì',
                   (_isSarcFQuestionnaire() ||
                           _isSf12Questionnaire() ||
-                          _isEsasQuestionnaire())
+                          _isEsasQuestionnaire() ||
+                          _isNrs2002Questionnaire() ||
+                          questionId.startsWith('nrs_'))
                       ? null
                       : yesScore,
                 ),
@@ -1242,13 +1267,15 @@ class _QuestionnaireDetailScreenState extends State<QuestionnaireDetailScreen> {
               child: _buildChoiceCard(
                 'No',
                 currentValue == 'No',
-                // CRITICAL FIX: Use scores from database instead of hardcoded values
+                // Same guard for No answers
                 () => _saveResponse(
                   questionId,
                   'No',
                   (_isSarcFQuestionnaire() ||
                           _isSf12Questionnaire() ||
-                          _isEsasQuestionnaire())
+                          _isEsasQuestionnaire() ||
+                          _isNrs2002Questionnaire() ||
+                          questionId.startsWith('nrs_'))
                       ? null
                       : noScore,
                 ),
@@ -1354,7 +1381,9 @@ class _QuestionnaireDetailScreenState extends State<QuestionnaireDetailScreen> {
         Column(
           children: options.map<Widget>((option) {
             final optionText = option.toString();
-            final optionScore = scores[optionText] as int? ?? 0;
+            // Use (as num?)?.toInt() to safely handle both int and double
+            // returned by Supabase JSONB (avoids silent null from 'as int?' on a double).
+            final optionScore = (scores[optionText] as num?)?.toInt() ?? 0;
 
             return Container(
               margin: EdgeInsets.only(bottom: 2.h),
@@ -1821,8 +1850,8 @@ class _QuestionnaireDetailScreenState extends State<QuestionnaireDetailScreen> {
     Color resultColor = Colors.blue.shade700;
     IconData resultIcon = Icons.calculate;
 
-    // CRITICAL FIX: Enhanced NRS 2002 BMI question handling with improved visual feedback
-    if (questionId == 'nrs_bmi_under_20_5' && _isNrs2002Questionnaire()) {
+    // NRS 2002 BMI: always score 0 (screening question only, no points)
+    if (questionId == 'nrs_bmi_under_20_5') {
       final bmi = _calculatedValues['bmi'];
       if (bmi != null) {
         final isUnder20_5 = bmi < 20.5;
@@ -1834,18 +1863,20 @@ class _QuestionnaireDetailScreenState extends State<QuestionnaireDetailScreen> {
         resultIcon =
             isUnder20_5 ? Icons.warning_rounded : Icons.check_circle_rounded;
 
-        // CRITICAL FIX: Auto-assign response with improved state management
+        // Always re-save if value OR score changed (old sessions may have score=1)
         WidgetsBinding.instance.addPostFrameCallback((_) async {
+          const score = 0; // NRS 2002 BMI is always 0 points (screening only)
+          final existingScore = _responses[questionId]?['score'];
           if (_responses[questionId] == null ||
-              _responses[questionId]!['value'] != resultText) {
-            final score = isUnder20_5 ? 1 : 0;
+              _responses[questionId]!['value'] != resultText ||
+              existingScore != score) {
             await _saveResponse(
               questionId,
               resultText!,
               score,
               calculatedValue: displayValue,
             );
-            print('AUTO-ASSIGNED NRS 2002 BMI: $resultText with score $score');
+            print('AUTO-ASSIGNED NRS 2002 BMI: $resultText with score $score (was $existingScore)');
 
             // Force UI update
             if (mounted) {
@@ -1871,20 +1902,19 @@ class _QuestionnaireDetailScreenState extends State<QuestionnaireDetailScreen> {
     else if (questionId == 'must_bmi_calculated' && _isMustQuestionnaire()) {
       final bmi = _calculatedValues['bmi'];
       if (bmi != null) {
-        // MUST-specific BMI categorization with exact scoring criteria (scores hidden from user)
+        // MUST BMI scoring: BMI > 20 → 0, 18,5 < BMI < 20 → 1, BMI < 18,5 → 2
         if (bmi < 18.5) {
-          resultText = 'BMI < 18.5';
+          resultText = 'BMI < 18,5';
           displayValue = 'BMI: ${bmi.toStringAsFixed(1)} (Sottopeso grave)';
           resultColor = Colors.red.shade700;
           resultIcon = Icons.warning;
-        } else if (bmi >= 18.5 && bmi < 20.0) {
-          resultText = '18.5 ≤ BMI < 20';
-          displayValue =
-              'BMI: ${bmi.toStringAsFixed(1)} (Lievemente sottopeso)';
+        } else if (bmi <= 20.0) {
+          resultText = '18,5 < BMI < 20';
+          displayValue = 'BMI: ${bmi.toStringAsFixed(1)} (Lievemente sottopeso)';
           resultColor = Colors.orange.shade700;
           resultIcon = Icons.info;
         } else {
-          resultText = 'BMI ≥ 20';
+          resultText = 'BMI > 20';
           displayValue = 'BMI: ${bmi.toStringAsFixed(1)} (Normale o superiore)';
           resultColor = Colors.green.shade700;
           resultIcon = Icons.check_circle;
@@ -1897,7 +1927,7 @@ class _QuestionnaireDetailScreenState extends State<QuestionnaireDetailScreen> {
             int bmiScore;
             if (bmi < 18.5) {
               bmiScore = 2;
-            } else if (bmi >= 18.5 && bmi < 20.0) {
+            } else if (bmi <= 20.0) {
               bmiScore = 1;
             } else {
               bmiScore = 0;

@@ -131,7 +131,10 @@ class _AddMealState extends State<AddMeal> {
   /// Add recipe to selected foods list
   void _addRecipeToSelectedFoods(Map<String, dynamic> recipeData) {
     try {
-      final servings = (recipeData['servings'] as num?)?.toInt() ?? 1;
+      // total_protein_g / total_carbs_g / total_fat_g in the DB are now the
+      // correct macros for the full recipe portion (fixed by fix_recipe_macros.py).
+      // Divide by total_weight_g to get the per-100g values used when the
+      // user selects the default 100g portion.
       final totalCalories =
           (recipeData['total_calories'] as num?)?.toInt() ?? 0;
       final totalProtein =
@@ -139,47 +142,26 @@ class _AddMealState extends State<AddMeal> {
       final totalCarbs =
           (recipeData['total_carbs_g'] as num?)?.toDouble() ?? 0.0;
       final totalFat = (recipeData['total_fat_g'] as num?)?.toDouble() ?? 0.0;
+      final totalFiber =
+          (recipeData['total_fiber_g'] as num?)?.toDouble() ?? 0.0;
 
-      // Use calories_per_100g from DB if available (populated from CSV data)
-      final dbCaloriesPer100g = (recipeData['calories_per_100g'] as num?)?.toInt() ?? 0;
-      final dbTotalWeight = ((recipeData['total_weight_g'] as num?) ?? 0).toDouble();
+      final totalWeight =
+          ((recipeData['total_weight_g'] as num?) ?? 0).toDouble();
 
-      // Calculate true per-100g values using total_weight_g from DB
-      int caloriesPer100g;
-      double proteinPer100g;
-      double carbsPer100g;
-      double fatPer100g;
+      // Per-100g = full-portion macro / total_weight_g * 100
+      final int caloriesPer100g = totalWeight > 0
+          ? ((totalCalories / totalWeight) * 100).round()
+          : 0;
+      final double proteinPer100g =
+          totalWeight > 0 ? (totalProtein / totalWeight) * 100 : 0;
+      final double carbsPer100g =
+          totalWeight > 0 ? (totalCarbs / totalWeight) * 100 : 0;
+      final double fatPer100g =
+          totalWeight > 0 ? (totalFat / totalWeight) * 100 : 0;
+      final double fiberPer100g =
+          totalWeight > 0 ? (totalFiber / totalWeight) * 100 : 0;
 
-      if (dbCaloriesPer100g > 0) {
-        // Best case: use pre-calculated calories_per_100g from DB
-        caloriesPer100g = dbCaloriesPer100g;
-        if (dbTotalWeight > 0) {
-          proteinPer100g = (totalProtein / dbTotalWeight) * 100;
-          carbsPer100g = (totalCarbs / dbTotalWeight) * 100;
-          fatPer100g = (totalFat / dbTotalWeight) * 100;
-        } else {
-          // Fallback for macros: estimate with 250g per serving
-          final estWeight = 250.0 * servings;
-          proteinPer100g = estWeight > 0 ? (totalProtein / estWeight) * 100 : 0;
-          carbsPer100g = estWeight > 0 ? (totalCarbs / estWeight) * 100 : 0;
-          fatPer100g = estWeight > 0 ? (totalFat / estWeight) * 100 : 0;
-        }
-      } else if (dbTotalWeight > 0) {
-        // Use total_weight_g to calculate per-100g
-        caloriesPer100g = ((totalCalories / dbTotalWeight) * 100).round();
-        proteinPer100g = (totalProtein / dbTotalWeight) * 100;
-        carbsPer100g = (totalCarbs / dbTotalWeight) * 100;
-        fatPer100g = (totalFat / dbTotalWeight) * 100;
-      } else {
-        // Last resort fallback: estimate with 250g per serving
-        final estWeight = 250.0 * servings;
-        caloriesPer100g = estWeight > 0 ? ((totalCalories / estWeight) * 100).round() : 0;
-        proteinPer100g = estWeight > 0 ? (totalProtein / estWeight) * 100 : 0;
-        carbsPer100g = estWeight > 0 ? (totalCarbs / estWeight) * 100 : 0;
-        fatPer100g = estWeight > 0 ? (totalFat / estWeight) * 100 : 0;
-      }
-
-      // Create food item from recipe
+      // Create food item from recipe (default portion: 100g)
       final recipeFood = {
         'id': recipeData['id'],
         'name': recipeData['title'] ?? 'Ricetta',
@@ -189,8 +171,8 @@ class _AddMealState extends State<AddMeal> {
         'protein': proteinPer100g,
         'carbs': carbsPer100g,
         'fats': fatPer100g,
+        'fiber': fiberPer100g,
         'total_calories': totalCalories,
-        'servings_count': servings,
         'quantity': 100.0,
         'selected_serving': '100g',
         'image_url': recipeData['image_url'] ?? recipeData['imageUrl'],

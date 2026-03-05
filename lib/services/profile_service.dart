@@ -279,6 +279,65 @@ class ProfileService {
     }
   }
 
+  // ---------------------------------------------------------------------------
+  // Pure BMR × BMI-based correction factor (Steps A–E from spec)
+  // height must be in METRES; weight in kg; age in whole years.
+  // Returns: { bmi, bmi_class, weight_used, bmr, correction_factor, total_energy }
+  // ---------------------------------------------------------------------------
+  static Map<String, dynamic> computeEnergyRequirement({
+    required double weightKg,
+    required double heightM,
+    required int ageYears,
+    required String gender, // 'male' or 'female'
+  }) {
+    // Step A — BMI (no rounding before classification!)
+    final bmi = weightKg / (heightM * heightM);
+
+    String bmiClass;
+    if (bmi <= 18.5) {
+      bmiClass = 'underweight';
+    } else if (bmi <= 29.9) {
+      bmiClass = 'normal_overweight';
+    } else {
+      bmiClass = 'obese';
+    }
+
+    // Step B — weight used in BMR (reference weight for obese)
+    final double weightUsed;
+    if (bmi <= 29.9) {
+      weightUsed = weightKg;
+    } else {
+      weightUsed = (weightKg * 0.25) + (heightM * heightM * 22);
+    }
+
+    // Step C — Harris & Benedict BMR (height in METRES as specified)
+    final double bmr;
+    if (gender.toLowerCase() == 'male') {
+      bmr = 66.4730 + (13.7156 * weightUsed) + (5.033 * heightM) - (6.755 * ageYears);
+    } else {
+      bmr = 655.095 + (9.5634 * weightUsed) + (1.849 * heightM) - (4.6756 * ageYears);
+    }
+
+    // Step D — correction factor by BMI class
+    final double correctionFactor;
+    if (bmi <= 18.5) {
+      correctionFactor = 1.5;
+    } else if (bmi <= 29.9) {
+      correctionFactor = 1.3;
+    } else {
+      correctionFactor = 1.2;
+    }
+
+    return {
+      'bmi': bmi,
+      'bmi_class': bmiClass,
+      'weight_used': weightUsed,
+      'bmr': bmr,
+      'correction_factor': correctionFactor,
+      'total_energy': bmr * correctionFactor,
+    };
+  }
+
   // Validate email format
   bool _isValidEmail(String email) {
     return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
